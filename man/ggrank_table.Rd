@@ -15,7 +15,7 @@ ggrank_table(
   periods = NULL,
   top_n = 10,
   direction = c("descending", "ascending"),
-  ties = c("first", "min", "dense"),
+  ties = c("min", "dense", "first"),
   show_transitions = c("boundary", "top_only", "all")
 )
 }
@@ -34,12 +34,15 @@ formatted using \code{format()}.}
 
 \item{periods}{Optional vector selecting and ordering two to four states.}
 
-\item{top_n}{Number of leading categories to retain in each state.}
+\item{top_n}{Rank threshold to retain in each state. All categories tied at
+the boundary are included, so the result may contain more than \code{top_n}
+categories.}
 
 \item{direction}{Whether large (\code{"descending"}) or small (\code{"ascending"})
 values rank first.}
 
-\item{ties}{Ranking method: \code{"first"}, \code{"min"}, or \code{"dense"}.}
+\item{ties}{Ranking method: \code{"min"} (the default competition ranking),
+\code{"dense"}, or \code{"first"} (unique alphabetical ranks).}
 
 \item{show_transitions}{\code{"boundary"} retains categories appearing in the
 top N in any selected state; \code{"top_only"} includes top-N observations
@@ -47,7 +50,8 @@ only; \code{"all"} includes every category.}
 }
 \value{
 A data frame with category, transition states, ranks, rank change,
-values, value change, labels, group, and movement status. Positive
+values, value change, labels, group, missing-value indicators, and movement
+status. Positive
 \code{rank_change} means that a category rose in the ranking.
 }
 \description{

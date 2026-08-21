@@ -12,10 +12,13 @@
 #'   formatted using `format()`.
 #' @param group Optional unquoted category-group column.
 #' @param periods Optional vector selecting and ordering two to four states.
-#' @param top_n Number of leading categories to retain in each state.
+#' @param top_n Rank threshold to retain in each state. All categories tied at
+#'   the boundary are included, so the display may contain more than `top_n`
+#'   categories.
 #' @param direction Whether large (`"descending"`) or small (`"ascending"`)
 #'   values rank first.
-#' @param ties Ranking method: `"first"`, `"min"`, or `"dense"`.
+#' @param ties Ranking method: `"min"` (the default competition ranking),
+#'   `"dense"`, or `"first"` (unique alphabetical ranks).
 #' @param show_transitions `"boundary"` retains the union of categories in the
 #'   top N in any selected state; `"top_only"` only displays top-N observations;
 #'   `"all"` displays every category.
@@ -26,8 +29,9 @@
                                  label = NULL, group = NULL, periods = NULL,
                                  top_n = 10,
                                  direction = c("descending", "ascending"),
-                                 ties = c("first", "min", "dense"),
-                                 show_transitions = c("boundary", "top_only", "all")) {
+                                 ties = c("min", "dense", "first"),
+                                 show_transitions = c("boundary", "top_only", "all"),
+                                 min_states = 2L, max_states = 4L) {
   direction <- match.arg(direction)
   ties <- match.arg(ties)
   show_transitions <- match.arg(show_transitions)
@@ -56,9 +60,20 @@
 
   available <- unique(out$.period)
   if (is.null(periods)) periods <- available
-  if (length(periods) < 2L || length(periods) > 4L) stop("Select between two and four `periods`.", call. = FALSE)
+  if (length(periods) < min_states || length(periods) > max_states) {
+    if (is.finite(max_states)) {
+      stop("Select between ", min_states, " and ", max_states, " `periods`.", call. = FALSE)
+    }
+    stop("Select at least ", min_states, " `periods`.", call. = FALSE)
+  }
   if (any(!periods %in% available)) stop("Every requested period must occur in `data`.", call. = FALSE)
-  out <- dplyr::filter(out, .period %in% periods, is.finite(.value))
+  out <- dplyr::filter(out, .period %in% periods)
+  invalid_value <- !is.finite(out$.value)
+  if (any(invalid_value)) {
+    warning(sum(invalid_value), " row", if (sum(invalid_value) == 1L) " was" else "s were",
+            " excluded because `value` was missing or non-finite.", call. = FALSE)
+    out <- out[!invalid_value, , drop = FALSE]
+  }
   out$.period_index <- match(out$.period, periods)
   out$.period_label <- as.character(out$.period)
 
@@ -124,16 +139,20 @@
 #'   formatted using `format()`.
 #' @param group Optional unquoted category-group column.
 #' @param periods Optional vector selecting and ordering two to four states.
-#' @param top_n Number of leading categories to retain in each state.
+#' @param top_n Rank threshold to retain in each state. All categories tied at
+#'   the boundary are included, so the result may contain more than `top_n`
+#'   categories.
 #' @param direction Whether large (`"descending"`) or small (`"ascending"`)
 #'   values rank first.
-#' @param ties Ranking method: `"first"`, `"min"`, or `"dense"`.
+#' @param ties Ranking method: `"min"` (the default competition ranking),
+#'   `"dense"`, or `"first"` (unique alphabetical ranks).
 #' @param show_transitions `"boundary"` retains categories appearing in the
 #'   top N in any selected state; `"top_only"` includes top-N observations
 #'   only; `"all"` includes every category.
 #'
 #' @return A data frame with category, transition states, ranks, rank change,
-#'   values, value change, labels, group, and movement status. Positive
+#'   values, value change, labels, group, missing-value indicators, and movement
+#'   status. Positive
 #'   `rank_change` means that a category rose in the ranking.
 #' @export
 #' @examples
@@ -144,14 +163,27 @@
 ggrank_table <- function(data, category, period, value, rank = NULL,
                          label = NULL, group = NULL, periods = NULL,
                          top_n = 10, direction = c("descending", "ascending"),
-                         ties = c("first", "min", "dense"),
+                         ties = c("min", "dense", "first"),
                          show_transitions = c("boundary", "top_only", "all")) {
+  category_q <- rlang::enquo(category)
+  period_q <- rlang::enquo(period)
+  value_q <- rlang::enquo(value)
   prepared <- .prepare_ggrank_data(
     data, {{ category }}, {{ period }}, {{ value }},
     rank = {{ rank }}, label = {{ label }}, group = {{ group }},
     periods = periods, top_n = top_n, direction = direction,
     ties = ties, show_transitions = show_transitions
   )
+
+  raw_values <- data.frame(
+    category = as.character(dplyr::pull(data, !!category_q)),
+    period = as.character(dplyr::pull(data, !!period_q)),
+    value = dplyr::pull(data, !!value_q),
+    stringsAsFactors = FALSE
+  )
+  missing_keys <- paste(raw_values$category, raw_values$period)[
+    !is.finite(raw_values$value)
+  ]
 
   period_order <- unique(prepared$.period_label[order(prepared$.period_index)])
   transition_tables <- vector("list", length(period_order) - 1L)
@@ -173,12 +205,18 @@ ggrank_table <- function(data, category, period, value, rank = NULL,
     transition$value_change <- transition$value_to - transition$value_from
     transition$group <- ifelse(!is.na(transition$group_to),
                                transition$group_to, transition$group_from)
-    transition$status <- ifelse(is.na(transition$rank_from), "new",
+    transition$missing_from <- paste(transition$category, transition$from) %in%
+      missing_keys
+    transition$missing_to <- paste(transition$category, transition$to) %in%
+      missing_keys
+    transition$status <- ifelse(transition$missing_from |
+                                  transition$missing_to, "missing",
+      ifelse(is.na(transition$rank_from), "new",
       ifelse(is.na(transition$rank_to), "absent",
         ifelse(!transition$in_top_from & transition$in_top_to, "entrant",
           ifelse(transition$in_top_from & !transition$in_top_to, "exit",
             ifelse(transition$rank_change > 0, "riser",
-              ifelse(transition$rank_change < 0, "faller", "stable"))))))
+              ifelse(transition$rank_change < 0, "faller", "stable")))))))
     transition$transition_index <- i
     transition_tables[[i]] <- transition
   }
@@ -189,5 +227,5 @@ ggrank_table <- function(data, category, period, value, rank = NULL,
                            is.na(rank_from), rank_from, category)
   dplyr::select(result, category, from, to, rank_from, rank_to,
                 rank_change, value_from, value_to, value_change,
-                label_from, label_to, group, status)
+                label_from, label_to, group, missing_from, missing_to, status)
 }

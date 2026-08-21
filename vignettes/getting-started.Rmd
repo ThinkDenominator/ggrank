@@ -37,6 +37,50 @@ ggrank(
 The boundary view is the default: a category outside the top five remains in
 the figure when it enters or exits the top five in another displayed period.
 
+## Let ggrank calculate the ranks
+
+Users normally supply values rather than ranks. Inspect the calculation with
+`ggrank_data()`:
+
+```{r}
+tied_rates <- data.frame(
+  year = rep(c(2020, 2025), each = 5),
+  organism = rep(c("A", "B", "C", "D", "E"), 2),
+  rate = c(5, 4, 3, 3, 2, 6, 4, 4, 2, 1)
+)
+
+ggrank_data(
+  tied_rates,
+  category = organism,
+  period = year,
+  value = rate
+)
+```
+
+Ranking uses exact numeric values. Equal values share a competition rank by
+default (`1, 2, 3, 3, 5`) but receive separate alphabetical display positions.
+All categories tied at the `top_n` boundary are included, so a top-ten figure
+can contain more than ten boxes. Do not filter to the top N before calling the
+package, because doing so prevents entrant and exit detection.
+
+Display formatting is independent of ranking. For example, rank an unrounded
+rate while printing a prepared one-decimal label:
+
+```{r}
+formatted_rates <- transform(
+  tied_rates,
+  rate_label = sprintf("%.1f per 100,000", rate)
+)
+
+ggrank(
+  formatted_rates,
+  category = organism,
+  period = year,
+  value = rate,
+  label = rate_label
+)
+```
+
 ## Group colours and prepared labels
 
 Use `group` for meaningful category colours and `label` when values require a

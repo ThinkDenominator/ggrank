@@ -32,3 +32,19 @@ scales.
 Use `ggrank_table()` when you need the readable analytical result behind a
 figure—for example, exact before/after ranks, value changes, entrants, and
 exits.
+
+## How ranks are calculated
+
+Normally, supply one numeric value for each category and period; you do not
+need to create a rank column. `ggrank()` ranks the exact values within each
+period before applying `top_n`.
+
+```r
+ggrank_data(ggrank_products, product, year, sales)
+```
+
+Equal values share a competition rank by default (`1, 2, 3, 3, 5`). They are
+placed on separate rows and all categories tied at the `top_n` boundary are
+retained. `value` controls ranking, while an optional `label` controls only the
+printed formatting. Do not pre-filter data to the top N: supply all relevant
+categories so entrants and exits can be identified.

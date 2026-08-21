@@ -38,6 +38,45 @@ head(ggrank_products)
 str(ggrank_products)
 
 
+## 0a. Inspect automatically calculated ranks --------------------------------
+
+## Equal values share the same competition rank by default. Alphabetical
+## display positions keep tied categories on separate rows.
+manual_tied_rates <- data.frame(
+  year = rep(c(2020, 2025), each = 5),
+  organism = rep(c("A", "B", "C", "D", "E"), 2),
+  rate = c(5, 4, 3, 3, 2, 6, 4, 4, 2, 1)
+)
+
+ranked_tied_rates <- ggrank_data(
+  data = manual_tied_rates,
+  category = organism,
+  period = year,
+  value = rate
+)
+
+ranked_tied_rates
+
+## Check manually:
+## - C and D both have rank 3 in 2020;
+## - B and C both have rank 2 in 2025;
+## - display positions remain unique within each year.
+
+## Ranking and printing can use different columns. These labels do not alter
+## the ranks calculated from the exact numeric rate.
+manual_tied_rates$rate_label <- sprintf("%.1f per 100,000", manual_tied_rates$rate)
+
+ranked_with_labels <- ggrank_data(
+  data = manual_tied_rates,
+  category = organism,
+  period = year,
+  value = rate,
+  label = rate_label
+)
+
+ranked_with_labels
+
+
 ## 1. Simplest possible plot --------------------------------------------------
 
 ## User question:
@@ -614,6 +653,8 @@ plot_factor_periods
 ## 17. Final manual review checklist -----------------------------------------
 
 ## [ ] ggrank() works with the three required mappings only.
+## [ ] ggrank_data() exposes automatic ranks before plotting.
+## [ ] Exact ties share ranks but have unique display positions.
 ## [ ] ggrank_table() returns understandable before/after analytical columns.
 ## [ ] theme_ggrank() works independently.
 ## [ ] Two, three, and four-state layouts are readable.

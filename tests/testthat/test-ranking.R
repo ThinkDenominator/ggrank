@@ -52,3 +52,33 @@ test_that("layout widths must be positive", {
     "positive numbers"
   )
 })
+
+test_that("competition ranking is the default", {
+  x <- data.frame(period = rep(c("a", "b"), each = 5), item = rep(LETTERS[1:5], 2), value = rep(c(5, 4, 3, 3, 2), 2))
+  z <- ggrank_data(x, item, period, value)
+  expect_equal(z$rank[z$period == "a"], c(1, 2, 3, 3, 5))
+  expect_equal(z$display_position[z$period == "a"], 1:5)
+})
+
+test_that("all ties at the top-n boundary are retained", {
+  x <- data.frame(period = rep(c("a", "b"), each = 5), item = rep(LETTERS[1:5], 2), value = rep(c(5, 4, 3, 3, 2), 2))
+  z <- ggrank:::.prepare_ggrank_data(x, item, period, value, top_n = 3)
+  expect_setequal(z$category[z$period == "a"], LETTERS[1:4])
+})
+
+test_that("display labels do not alter exact-value ranks", {
+  x <- data.frame(period = rep(c("a", "b"), each = 2), item = rep(c("A", "B"), 2), value = c(3.48, 3.44, 3.48, 3.44), shown = "3")
+  z <- ggrank_data(x, item, period, value, label = shown)
+  expect_equal(z$rank[z$period == "a"], c(1, 2))
+  expect_equal(z$label[z$period == "a"], c("3", "3"))
+})
+
+test_that("missing values are warned about and distinguished", {
+  x <- data.frame(period = rep(c("a", "b"), each = 2), item = rep(c("A", "B"), 2), value = c(2, 1, 3, NA))
+  expect_warning(
+    z <- ggrank_table(x, item, period, value, top_n = 2),
+    "excluded"
+  )
+  expect_equal(z$status[z$category == "B"], "missing")
+  expect_true(z$missing_to[z$category == "B"])
+})

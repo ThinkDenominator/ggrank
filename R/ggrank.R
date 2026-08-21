@@ -25,7 +25,7 @@
 ggrank <- function(data, category, period, value, rank = NULL, label = NULL,
                    group = NULL, periods = NULL, top_n = 10,
                    direction = c("descending", "ascending"),
-                   ties = c("first", "min", "dense"),
+                   ties = c("min", "dense", "first"),
                    show_transitions = c("boundary", "top_only", "all"),
                    colour_by = c("auto", "group", "movement", "none"),
                    palette = NULL, category_header = "Category",
