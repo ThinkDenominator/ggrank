@@ -301,7 +301,9 @@ official_ranked <- ggrank_data(
 official_ranked
 
 ## Check manually that rank exactly matches official_rank. The package should
-## preserve supplied ranks instead of recalculating them.
+## preserve supplied ranks instead of recalculating them. This example should
+## also warn because the 2025 official order of C and D disagrees with their
+## rate order. The warning does not overwrite or reject authoritative ranks.
 
 official_plot <- ggrank(
   data = official_results,
@@ -314,6 +316,19 @@ official_plot <- ggrank(
 )
 
 official_plot
+
+## If the discrepancy is already understood and documented, suppress these
+## diagnostic checks explicitly while still preserving the supplied ranks.
+official_ranked_without_checks <- ggrank_data(
+  data = official_results,
+  category = organism,
+  period = year,
+  value = rate,
+  rank = official_rank,
+  check_rank = FALSE
+)
+
+official_ranked_without_checks
 
 
 ## 8. More than four periods --------------------------------------------------
@@ -419,8 +434,8 @@ missing_transition
 ## [ ] Intentional pre-ranking rounding can be performed explicitly.
 ## [ ] Ascending direction gives the smallest value rank 1.
 ## [ ] Supplied authoritative ranks are preserved.
+## [ ] Suspicious supplied ranks warn without being overwritten.
 ## [ ] ggrank_data() accepts more than four periods.
 ## [ ] Missing and non-finite values produce an informative warning.
 ## [ ] Missing values are distinguished from absent categories in the table.
 ## [ ] Prepared ranks agree with the corresponding ggrank() plots.
-

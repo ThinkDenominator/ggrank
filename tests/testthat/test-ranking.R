@@ -18,7 +18,7 @@ test_that("entrants and exits remain visible", {
 
 test_that("supplied ranks and labels are retained", {
   x <- data.frame(period = rep(c("before", "after"), each = 2), item = rep(c("A", "B"), 2), value = c(4, 3, 2, 5), supplied = c(2, 1, 2, 1), shown = paste0("n=", 1:4))
-  z <- ggrank_table(x, item, period, value, rank = supplied, label = shown, top_n = 2)
+  z <- ggrank_table(x, item, period, value, rank = supplied, label = shown, top_n = 2, check_rank = FALSE)
   expect_equal(z$rank_from[match(c("A", "B"), z$category)], c(2, 1))
   expect_equal(z$rank_to[match(c("A", "B"), z$category)], c(2, 1))
   expect_equal(z$label_from[match(c("A", "B"), z$category)], c("n=1", "n=2"))
@@ -81,4 +81,23 @@ test_that("missing values are warned about and distinguished", {
   )
   expect_equal(z$status[z$category == "B"], "missing")
   expect_true(z$missing_to[z$category == "B"])
+})
+
+test_that("supplied-rank disagreements produce optional warnings", {
+  x <- data.frame(period = rep(c("a", "b"), each = 3), item = rep(LETTERS[1:3], 2), value = c(3, 2, 2, 3, 2, 1), supplied = c(1, 2, 3, 1, 2, 3))
+  expect_warning(
+    ggrank_data(x, item, period, value, rank = supplied),
+    "equal-value"
+  )
+  expect_no_warning(
+    ggrank_data(x, item, period, value, rank = supplied, check_rank = FALSE)
+  )
+})
+
+test_that("supplied ranks must be positive whole numbers", {
+  x <- data.frame(period = c("a", "b"), item = "A", value = 1, supplied = c(1, 1.5))
+  expect_error(
+    ggrank_data(x, item, period, value, rank = supplied),
+    "whole numbers"
+  )
 })

@@ -27,7 +27,8 @@ ggrank(
   state_gap = 1.15,
   base_size = 11,
   title = NULL,
-  subtitle = NULL
+  subtitle = NULL,
+  check_rank = TRUE
 )
 }
 \arguments{
@@ -76,6 +77,11 @@ boxes. Increase \code{value_width} for long confidence-interval labels.}
 \item{base_size}{Base text size passed to \code{\link[=theme_ggrank]{theme_ggrank()}}.}
 
 \item{title, subtitle}{Optional plot title and subtitle.}
+
+\item{check_rank}{When \code{TRUE}, supplied ranks are checked for disagreements
+with equal values, shared ranks across different values, and the requested
+ranking direction. Potential disagreements warn rather than fail because
+authoritative ranks may use external tie-breakers or additional data.}
 }
 \value{
 A \code{ggplot} object.

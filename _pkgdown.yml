@@ -1,0 +1,38 @@
+url: https://thinkdenominator.github.io/ggrank/
+
+template:
+  bootstrap: 5
+  bootswatch: flatly
+
+home:
+  title: ggrank
+  description: Visualise rankings and changes in rankings with ggplot2.
+
+navbar:
+  structure:
+    left: [intro, reference, articles, news]
+    right: [search, github]
+  components:
+    github:
+      icon: fab fa-github
+      href: https://github.com/ThinkDenominator/ggrank
+      aria-label: GitHub
+
+reference:
+  - title: Rank and visualise
+    contents:
+      - ggrank_data
+      - ggrank
+      - ggrank_table
+      - theme_ggrank
+  - title: Synthetic teaching data
+    contents:
+      - ggrank_causes
+      - ggrank_products
+
+articles:
+  - title: Getting started
+    navbar: ~
+    contents:
+      - getting-started
+

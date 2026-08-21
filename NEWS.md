@@ -10,3 +10,5 @@
   separate display positions and all ties at the top-N boundary are included.
 * Ranking uses exact numeric values independently of printed labels, and
   missing or non-finite ranking values produce an informative warning.
+* Supplied ranks can now be checked against value ties and ranking direction;
+  potential disagreements warn because external ranking rules may be valid.

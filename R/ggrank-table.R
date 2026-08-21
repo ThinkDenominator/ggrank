@@ -31,7 +31,8 @@
                                  direction = c("descending", "ascending"),
                                  ties = c("min", "dense", "first"),
                                  show_transitions = c("boundary", "top_only", "all"),
-                                 min_states = 2L, max_states = 4L) {
+                                 min_states = 2L, max_states = 4L,
+                                 check_rank = TRUE) {
   direction <- match.arg(direction)
   ties <- match.arg(ties)
   show_transitions <- match.arg(show_transitions)
@@ -88,8 +89,56 @@
     }
     out <- dplyr::ungroup(out)
   } else {
-    if (any(!is.finite(out$.rank_input)) || any(out$.rank_input < 1)) stop("Supplied ranks must be finite positive numbers.", call. = FALSE)
+    if (any(!is.finite(out$.rank_input)) || any(out$.rank_input < 1) ||
+        any(out$.rank_input != as.integer(out$.rank_input))) {
+      stop("Supplied ranks must be finite positive whole numbers.", call. = FALSE)
+    }
     out$rank <- out$.rank_input
+    if (isTRUE(check_rank)) {
+      equal_value_split <- split(out, interaction(out$.period_index, out$.value,
+                                                  drop = TRUE))
+      equal_values_different_ranks <- sum(vapply(
+        equal_value_split,
+        function(z) length(unique(z$rank)) > 1L,
+        logical(1)
+      ))
+      if (equal_values_different_ranks > 0L) {
+        warning(equal_values_different_ranks, " equal-value group",
+                if (equal_values_different_ranks == 1L) " has" else "s have",
+                " different supplied ranks. This may be intentional if an external tie-breaker was used.",
+                call. = FALSE)
+      }
+
+      equal_rank_split <- split(out, interaction(out$.period_index, out$rank,
+                                                 drop = TRUE))
+      equal_ranks_different_values <- sum(vapply(
+        equal_rank_split,
+        function(z) length(unique(z$.value)) > 1L,
+        logical(1)
+      ))
+      if (equal_ranks_different_values > 0L) {
+        warning(equal_ranks_different_values, " supplied-rank group",
+                if (equal_ranks_different_values == 1L) " contains" else "s contain",
+                " different values. This may be intentional if ranks use additional information.",
+                call. = FALSE)
+      }
+
+      direction_conflict <- vapply(split(out, out$.period_index), function(z) {
+        value_difference <- outer(z$.value, z$.value, "-")
+        rank_difference <- outer(z$rank, z$rank, "-")
+        if (direction == "descending") {
+          any(value_difference > 0 & rank_difference > 0)
+        } else {
+          any(value_difference < 0 & rank_difference > 0)
+        }
+      }, logical(1))
+      if (any(direction_conflict)) {
+        warning(sum(direction_conflict), " period",
+                if (sum(direction_conflict) == 1L) " has" else "s have",
+                " supplied ranks that conflict with `direction` and the value order.",
+                call. = FALSE)
+      }
+    }
   }
 
   in_top <- out$rank <= top_n
@@ -149,6 +198,10 @@
 #' @param show_transitions `"boundary"` retains categories appearing in the
 #'   top N in any selected state; `"top_only"` includes top-N observations
 #'   only; `"all"` includes every category.
+#' @param check_rank When `TRUE`, supplied ranks are checked for disagreements
+#'   with equal values, shared ranks across different values, and the requested
+#'   ranking direction. Potential disagreements warn rather than fail because
+#'   authoritative ranks may use external tie-breakers or additional data.
 #'
 #' @return A data frame with category, transition states, ranks, rank change,
 #'   values, value change, labels, group, missing-value indicators, and movement
@@ -164,7 +217,8 @@ ggrank_table <- function(data, category, period, value, rank = NULL,
                          label = NULL, group = NULL, periods = NULL,
                          top_n = 10, direction = c("descending", "ascending"),
                          ties = c("min", "dense", "first"),
-                         show_transitions = c("boundary", "top_only", "all")) {
+                         show_transitions = c("boundary", "top_only", "all"),
+                         check_rank = TRUE) {
   category_q <- rlang::enquo(category)
   period_q <- rlang::enquo(period)
   value_q <- rlang::enquo(value)
@@ -172,7 +226,7 @@ ggrank_table <- function(data, category, period, value, rank = NULL,
     data, {{ category }}, {{ period }}, {{ value }},
     rank = {{ rank }}, label = {{ label }}, group = {{ group }},
     periods = periods, top_n = top_n, direction = direction,
-    ties = ties, show_transitions = show_transitions
+    ties = ties, show_transitions = show_transitions, check_rank = check_rank
   )
 
   raw_values <- data.frame(

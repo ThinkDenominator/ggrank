@@ -32,7 +32,7 @@ ggrank <- function(data, category, period, value, rank = NULL, label = NULL,
                    value_header = "Value", label_wrap = 28,
                    category_width = 2.4, value_width = 1.55,
                    state_gap = 1.15, base_size = 11,
-                   title = NULL, subtitle = NULL) {
+                   title = NULL, subtitle = NULL, check_rank = TRUE) {
   direction <- match.arg(direction)
   ties <- match.arg(ties)
   show_transitions <- match.arg(show_transitions)
@@ -41,7 +41,7 @@ ggrank <- function(data, category, period, value, rank = NULL, label = NULL,
   tbl <- .prepare_ggrank_data(data, {{ category }}, {{ period }}, {{ value }},
     rank = {{ rank }}, label = {{ label }}, group = {{ group }}, periods = periods,
     top_n = top_n, direction = direction, ties = ties,
-    show_transitions = show_transitions)
+    show_transitions = show_transitions, check_rank = check_rank)
 
   has_group <- !rlang::quo_is_null(group_q) && any(!is.na(tbl$group))
   if (colour_by == "auto") colour_by <- if (has_group) "group" else "movement"

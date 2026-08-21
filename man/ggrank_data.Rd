@@ -14,7 +14,8 @@ ggrank_data(
   group = NULL,
   periods = NULL,
   direction = c("descending", "ascending"),
-  ties = c("min", "dense", "first")
+  ties = c("min", "dense", "first"),
+  check_rank = TRUE
 )
 }
 \arguments{
@@ -38,6 +39,10 @@ values rank first.}
 
 \item{ties}{Ranking method: \code{"min"} (competition ranking), \code{"dense"}, or
 \code{"first"} (unique ranks resolved alphabetically by category).}
+
+\item{check_rank}{When \code{TRUE}, supplied ranks are checked for potential
+disagreements with the values and ranking direction. These checks warn
+rather than fail because authoritative ranks may use external information.}
 }
 \value{
 A data frame containing \code{category}, \code{period}, \code{value}, \code{rank},

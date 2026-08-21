@@ -16,7 +16,8 @@ ggrank_table(
   top_n = 10,
   direction = c("descending", "ascending"),
   ties = c("min", "dense", "first"),
-  show_transitions = c("boundary", "top_only", "all")
+  show_transitions = c("boundary", "top_only", "all"),
+  check_rank = TRUE
 )
 }
 \arguments{
@@ -47,6 +48,11 @@ values rank first.}
 \item{show_transitions}{\code{"boundary"} retains categories appearing in the
 top N in any selected state; \code{"top_only"} includes top-N observations
 only; \code{"all"} includes every category.}
+
+\item{check_rank}{When \code{TRUE}, supplied ranks are checked for disagreements
+with equal values, shared ranks across different values, and the requested
+ranking direction. Potential disagreements warn rather than fail because
+authoritative ranks may use external tie-breakers or additional data.}
 }
 \value{
 A data frame with category, transition states, ranks, rank change,

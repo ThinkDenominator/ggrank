@@ -7,6 +7,14 @@ endorsed by the Institute for Health Metrics and Evaluation (IHME). All data
 included with the package are synthetic teaching data and do not contain
 Global Burden of Disease estimates.
 
+## Installation
+
+Install the development version from GitHub:
+
+```r
+pak::pak("ThinkDenominator/ggrank")
+```
+
 ```r
 library(ggrank)
 
@@ -48,3 +56,23 @@ placed on separate rows and all categories tied at the `top_n` boundary are
 retained. `value` controls ranking, while an optional `label` controls only the
 printed formatting. Do not pre-filter data to the top N: supply all relevant
 categories so entrants and exits can be identified.
+
+## Exporting results
+
+`ggrank()` returns an ordinary ggplot object, so use standard R tools:
+
+```r
+p <- ggrank(ggrank_products, product, year, sales, top_n = 5)
+
+ggplot2::ggsave(
+  "rank-chart.png", p,
+  width = 12, height = 7, units = "in", dpi = 300
+)
+
+changes <- ggrank_table(
+  ggrank_products, product, year, sales,
+  periods = c(2022, 2024), top_n = 5
+)
+
+write.csv(changes, "rank-changes.csv", row.names = FALSE)
+```

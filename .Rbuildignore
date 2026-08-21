@@ -3,3 +3,6 @@
 ^data-raw$
 ^dev$
 ^\.github$
+^_pkgdown\.yml$
+^CONTRIBUTING\.md$
+^CODE_OF_CONDUCT\.md$

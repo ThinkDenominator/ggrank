@@ -23,6 +23,9 @@
 #'   values rank first.
 #' @param ties Ranking method: `"min"` (competition ranking), `"dense"`, or
 #'   `"first"` (unique ranks resolved alphabetically by category).
+#' @param check_rank When `TRUE`, supplied ranks are checked for potential
+#'   disagreements with the values and ranking direction. These checks warn
+#'   rather than fail because authoritative ranks may use external information.
 #'
 #' @return A data frame containing `category`, `period`, `value`, `rank`,
 #'   `display_position`, `label`, and `group`.
@@ -39,7 +42,8 @@
 ggrank_data <- function(data, category, period, value, rank = NULL,
                         label = NULL, group = NULL, periods = NULL,
                         direction = c("descending", "ascending"),
-                        ties = c("min", "dense", "first")) {
+                        ties = c("min", "dense", "first"),
+                        check_rank = TRUE) {
   direction <- match.arg(direction)
   ties <- match.arg(ties)
 
@@ -58,7 +62,7 @@ ggrank_data <- function(data, category, period, value, rank = NULL,
     rank = {{ rank }}, label = {{ label }}, group = {{ group }},
     periods = periods, top_n = max_categories,
     direction = direction, ties = ties, show_transitions = "all",
-    min_states = 1L, max_states = Inf
+    min_states = 1L, max_states = Inf, check_rank = check_rank
   )
 
   result <- data.frame(
