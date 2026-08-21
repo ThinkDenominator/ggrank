@@ -688,3 +688,18 @@ plot_factor_periods
 ## [ ] Width controls preserve separate category and value boxes.
 ## [ ] Standard ggplot2 customisation remains available.
 ## [ ] Validation errors tell the user how to correct the input.
+## [ ] The GUI outputs agree with the equivalent reusable R code.
+
+
+## 18. Optional graphical interface -----------------------------------------
+
+## Run this section last. It starts a local Shiny application and keeps the R
+## session busy until you close the app or click Stop in RStudio.
+ggrank_app()
+
+## Check manually in the GUI:
+## - Synthetic products and causes load with sensible default columns.
+## - An uploaded CSV makes its columns available in every selector.
+## - Select between two and four periods and click Update outputs.
+## - Rank chart, Change chart, Rank-change table, and Ranked data all agree.
+## - Download current plot saves the plot shown by the selected chart tab.

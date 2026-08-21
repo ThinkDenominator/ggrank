@@ -53,6 +53,17 @@ test_that("ggrank_change checks its input", {
   )), "no finite rank changes")
 })
 
+test_that("the packaged GUI and launcher are available", {
+  app_file <- system.file("shiny", "ggrank", "app.R", package = "ggrank")
+  expect_true(file.exists(app_file))
+  expect_true(all(c("...", "launch.browser") %in% names(formals(ggrank_app))))
+  app_text <- paste(readLines(app_file), collapse = "\n")
+  expect_match(app_text, "Reusable R code", fixed = TRUE)
+  expect_match(app_text, "Download .R", fixed = TRUE)
+  expect_match(app_text, "Close app", fixed = TRUE)
+  expect_match(app_text, "local app session", fixed = TRUE)
+})
+
 test_that("tied ranks receive distinct display positions", {
   x <- data.frame(period = rep(c("a", "b"), each = 3), item = rep(letters[1:3], 2), value = c(3, 2, 2, 3, 2, 2))
   z <- ggrank:::.prepare_ggrank_data(x, item, period, value, top_n = 3, ties = "dense")

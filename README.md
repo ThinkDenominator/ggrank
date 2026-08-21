@@ -52,6 +52,16 @@ changes <- ggrank_table(
 ggrank_change(changes, top = 5)
 ```
 
+For a point-and-click workflow, launch the local Shiny interface:
+
+```r
+ggrank_app()
+```
+
+The app uses the same package functions. It can open the synthetic teaching
+data or an uploaded CSV, create the ranking, display both charts, and show the
+rank-change table.
+
 ## How ranks are calculated
 
 Normally, supply one numeric value for each category and period; you do not

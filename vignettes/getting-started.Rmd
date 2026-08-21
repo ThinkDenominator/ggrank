@@ -110,7 +110,7 @@ ggplot2 layers can be added normally.
 category and adjacent transition.
 
 ```{r}
-ggrank_table(
+changes <- ggrank_table(
   ggrank_products,
   category = product,
   period = year,
@@ -118,4 +118,27 @@ ggrank_table(
   periods = c(2022, 2024),
   top_n = 5
 )
+
+changes
 ```
+
+Visualise the largest rises and falls directly from that table. Positive
+values moved towards rank one; negative values moved away from rank one.
+
+```{r}
+ggrank_change(changes, top = 5)
+```
+
+## Use the graphical interface
+
+Launch the optional local Shiny interface when you prefer to choose columns
+and settings interactively:
+
+```{r, eval=FALSE}
+ggrank_app()
+```
+
+Start with either synthetic teaching dataset or upload a CSV. The GUI presents
+the rank chart, change chart, analytical table, and calculated rank data in
+separate tabs. Close the Shiny window or stop the R process to return to the
+console.

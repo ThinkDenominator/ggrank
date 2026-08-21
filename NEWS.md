@@ -14,3 +14,5 @@
   potential disagreements warn because external ranking rules may be valid.
 * Added `ggrank_change()` to visualise the largest rises and falls from a
   `ggrank_table()` result.
+* Added `ggrank_app()` as an optional local Shiny interface for the existing
+  ranking, table, and visualisation workflow.

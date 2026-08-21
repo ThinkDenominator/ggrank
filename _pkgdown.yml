@@ -25,6 +25,7 @@ reference:
       - ggrank
       - ggrank_table
       - ggrank_change
+      - ggrank_app
       - theme_ggrank
   - title: Synthetic teaching data
     contents:
