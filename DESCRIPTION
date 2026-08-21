@@ -1,0 +1,33 @@
+Package: ggrank
+Title: Visualise Changes in Rankings with 'ggplot2'
+Version: 0.1.0
+Authors@R: c(
+    person("Rubesh", role = c("aut", "cre"),
+           email = "rubesh@thinkdenominator.com"),
+    person("Think Denominator", role = "cph")
+    )
+Author: Rubesh [aut, cre], Think Denominator [cph]
+Maintainer: Rubesh <rubesh@thinkdenominator.com>
+Description: Creates publication-ready rank transition charts showing how
+    categories move between ordered states. Top-ranked categories are displayed
+    together with entrants to and exits from the selected top ranks.
+License: MIT + file LICENSE
+URL: https://thinkdenominator.github.io/ggrank/,
+    https://github.com/ThinkDenominator/ggrank
+BugReports: https://github.com/ThinkDenominator/ggrank/issues
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+Depends: R (>= 4.1.0)
+LazyData: true
+Imports:
+    dplyr,
+    ggplot2,
+    rlang,
+    scales
+Suggests:
+    knitr,
+    rmarkdown,
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+VignetteBuilder: knitr
+Config/roxygen2/version: 8.0.0

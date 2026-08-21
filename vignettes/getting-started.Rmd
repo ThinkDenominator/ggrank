@@ -1,0 +1,57 @@
+---
+title: "Creating your first ggrank plot"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Creating your first ggrank plot}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.width = 10, fig.height = 6)
+```
+
+`ggrank` shows how categories move through an ordered ranking while retaining
+their underlying values. Start with one row per category and period and map the
+three required columns.
+
+```{r}
+library(ggrank)
+
+ggrank(
+  ggrank_products,
+  category = product,
+  period = year,
+  value = sales,
+  periods = c(2022, 2024),
+  top_n = 5,
+  value_header = "Sales"
+)
+```
+
+The boundary view is the default: a category outside the top five remains in
+the figure when it enters or exits the top five in another displayed period.
+
+## Group colours and prepared labels
+
+Use `group` for meaningful category colours and `label` when values require a
+domain-specific display format. Supplied ranks are also supported.
+
+```{r}
+ggrank(
+  ggrank_causes,
+  category = cause,
+  period = year,
+  value = rate,
+  rank = rank,
+  label = display_value,
+  group = cause_group,
+  periods = c(1990, 2021),
+  top_n = 10,
+  value_header = "Rate (95% interval)"
+)
+```
+
+The returned value is a regular ggplot object, so titles, captions, and other
+ggplot2 layers can be added normally.
+
