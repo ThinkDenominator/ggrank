@@ -8,6 +8,8 @@
   : Draw a rank-transition chart
 - [`ggrank_table()`](https://thinkdenominator.github.io/ggrank/reference/ggrank_table.md)
   : Build a readable rank-transition table
+- [`ggrank_change()`](https://thinkdenominator.github.io/ggrank/reference/ggrank_change.md)
+  : Visualise the largest rank changes
 - [`theme_ggrank()`](https://thinkdenominator.github.io/ggrank/reference/theme_ggrank.md)
   : A minimal theme for rank-transition charts
 

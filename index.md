@@ -45,6 +45,20 @@ Use
 when you need the readable analytical result behind a figure—for
 example, exact before/after ranks, value changes, entrants, and exits.
 
+Use
+[`ggrank_change()`](https://thinkdenominator.github.io/ggrank/reference/ggrank_change.md)
+to visualise the largest movements in that table:
+
+``` r
+
+changes <- ggrank_table(
+  ggrank_products, product, year, sales,
+  periods = c(2022, 2024), top_n = 5
+)
+
+ggrank_change(changes, top = 5)
+```
+
 ## How ranks are calculated
 
 Normally, supply one numeric value for each category and period; you do
