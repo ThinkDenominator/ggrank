@@ -34,6 +34,25 @@ test_that("ggrank returns a ggplot", {
   expect_s3_class(ggrank(ggrank::ggrank_products, product, year, sales, top_n = 5), "ggplot")
 })
 
+test_that("ggrank_change visualises a rank-change table", {
+  changes <- ggrank_table(
+    ggrank::ggrank_products, product, year, sales,
+    periods = c(2022, 2024), top_n = 5
+  )
+  plot <- ggrank_change(changes, top = 3)
+  expect_s3_class(plot, "ggplot")
+  expect_lte(nrow(plot$data), 3)
+  expect_true(all(unique(plot$data$movement) %in% c("riser", "faller", "stable")))
+  expect_true(all(c("riser", "faller") %in% plot$data$movement))
+})
+
+test_that("ggrank_change checks its input", {
+  expect_error(ggrank_change(data.frame(category = "A")), "missing required")
+  expect_error(ggrank_change(data.frame(
+    category = "A", from = "a", to = "b", rank_change = NA_real_
+  )), "no finite rank changes")
+})
+
 test_that("tied ranks receive distinct display positions", {
   x <- data.frame(period = rep(c("a", "b"), each = 3), item = rep(letters[1:3], 2), value = c(3, 2, 2, 3, 2, 2))
   z <- ggrank:::.prepare_ggrank_data(x, item, period, value, top_n = 3, ties = "dense")

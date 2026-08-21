@@ -24,6 +24,7 @@ reference:
       - ggrank_data
       - ggrank
       - ggrank_table
+      - ggrank_change
       - theme_ggrank
   - title: Synthetic teaching data
     contents:
@@ -35,4 +36,3 @@ articles:
     navbar: ~
     contents:
       - getting-started
-

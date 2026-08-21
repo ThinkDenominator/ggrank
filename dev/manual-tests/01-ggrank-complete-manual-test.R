@@ -112,13 +112,29 @@ products_table <- ggrank_table(
 
 products_table
 
-products_table
-
 ## Check manually:
 ## - rank 1 has the largest sales value within each selected year;
 ## - a positive rank_change means the product rose;
 ## - entrants and exits have the expected status;
 ## - values and ranks before and after match the plotted categories.
+
+
+## 2a. Visualise the largest rank changes -----------------------------------
+
+plot_product_changes <- ggrank_change(
+  data = products_table,
+  top = 5,
+  title = "Largest product rank changes",
+  subtitle = "Positive values rose in rank; negative values fell"
+)
+
+plot_product_changes
+
+## Check manually:
+## - the largest absolute changes are shown;
+## - positive changes extend right and negative changes extend left;
+## - stable categories are marked at zero;
+## - labels and the movement legend are readable.
 
 
 ## 3. Select and order two states --------------------------------------------
@@ -656,6 +672,7 @@ plot_factor_periods
 ## [ ] ggrank_data() exposes automatic ranks before plotting.
 ## [ ] Exact ties share ranks but have unique display positions.
 ## [ ] ggrank_table() returns understandable before/after analytical columns.
+## [ ] ggrank_change() clearly shows the largest rises and falls.
 ## [ ] theme_ggrank() works independently.
 ## [ ] Two, three, and four-state layouts are readable.
 ## [ ] Requested period order is respected.
