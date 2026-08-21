@@ -15,6 +15,11 @@ knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.width = 10, fig.heigh
 their underlying values. Start with one row per category and period and map the
 three required columns.
 
+> **Teaching-data notice:** All datasets bundled with `ggrank` are synthetic.
+> They do not contain Global Burden of Disease estimates. `ggrank` is an
+> independent project and is not affiliated with or endorsed by the Institute
+> for Health Metrics and Evaluation (IHME).
+
 ```{r}
 library(ggrank)
 
@@ -55,3 +60,18 @@ ggrank(
 The returned value is a regular ggplot object, so titles, captions, and other
 ggplot2 layers can be added normally.
 
+## Inspect the underlying comparison
+
+`ggrank_table()` returns a readable analytical companion with one row per
+category and adjacent transition.
+
+```{r}
+ggrank_table(
+  ggrank_products,
+  category = product,
+  period = year,
+  value = sales,
+  periods = c(2022, 2024),
+  top_n = 5
+)
+```

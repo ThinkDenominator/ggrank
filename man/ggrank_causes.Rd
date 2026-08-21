@@ -17,5 +17,8 @@ ggrank_causes
 \description{
 A synthetic teaching dataset with cause rankings and uncertainty intervals.
 Values do not represent published Global Burden of Disease estimates.
+This dataset was generated specifically for package examples and contains no
+downloaded IHME or Global Burden of Disease data. The package is independent
+and is not affiliated with or endorsed by IHME.
 }
 \keyword{datasets}

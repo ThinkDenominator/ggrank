@@ -38,7 +38,7 @@ ggrank <- function(data, category, period, value, rank = NULL, label = NULL,
   show_transitions <- match.arg(show_transitions)
   colour_by <- match.arg(colour_by)
   group_q <- rlang::enquo(group)
-  tbl <- ggrank_table(data, {{ category }}, {{ period }}, {{ value }},
+  tbl <- .prepare_ggrank_data(data, {{ category }}, {{ period }}, {{ value }},
     rank = {{ rank }}, label = {{ label }}, group = {{ group }}, periods = periods,
     top_n = top_n, direction = direction, ties = ties,
     show_transitions = show_transitions)

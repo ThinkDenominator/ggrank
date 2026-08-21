@@ -28,6 +28,9 @@ library(ggplot2)
 data("ggrank_causes", package = "ggrank")
 data("ggrank_products", package = "ggrank")
 
+## Both bundled datasets are synthetic teaching data. ggrank_causes does not
+## contain IHME or published Global Burden of Disease estimates.
+
 head(ggrank_causes)
 str(ggrank_causes)
 
@@ -70,16 +73,13 @@ products_table <- ggrank_table(
 
 products_table
 
-products_table[, c(
-  "category", "period", "value", "rank", "previous_rank",
-  "rank_change", "status", "in_top", "display_position"
-)]
+products_table
 
 ## Check manually:
-## - rank 1 has the largest sales value within each year;
+## - rank 1 has the largest sales value within each selected year;
 ## - a positive rank_change means the product rose;
 ## - entrants and exits have the expected status;
-## - outside-top-five transition rows are placed below position 5.
+## - values and ranks before and after match the plotted categories.
 
 
 ## 3. Select and order two states --------------------------------------------
@@ -126,10 +126,7 @@ causes_table <- ggrank_table(
   top_n = 10
 )
 
-causes_table[, c(
-  "category", "period", "group", "rank", "label", "status",
-  "in_top", "display_position"
-)]
+causes_table
 
 plot_causes_grouped <- ggrank(
   data = ggrank_causes,
@@ -363,7 +360,7 @@ waiting_table <- ggrank_table(
   direction = "ascending"
 )
 
-waiting_table[, c("category", "period", "value", "rank", "status")]
+waiting_table
 
 plot_waiting_times <- ggrank(
   data = waiting_times,
@@ -400,7 +397,7 @@ ties_first <- ggrank_table(
   ties = "first"
 )
 
-ties_first[, c("category", "period", "value", "rank", "display_position")]
+ties_first
 
 ties_min <- ggrank_table(
   data = tied_scores,
@@ -411,7 +408,7 @@ ties_min <- ggrank_table(
   ties = "min"
 )
 
-ties_min[, c("category", "period", "value", "rank", "display_position")]
+ties_min
 
 ties_dense <- ggrank_table(
   data = tied_scores,
@@ -422,7 +419,7 @@ ties_dense <- ggrank_table(
   ties = "dense"
 )
 
-ties_dense[, c("category", "period", "value", "rank", "display_position")]
+ties_dense
 
 plot_ties_dense <- ggrank(
   data = tied_scores,
@@ -436,7 +433,8 @@ plot_ties_dense <- ggrank(
 
 plot_ties_dense
 
-## Check manually that tied analytical ranks do not cause boxes to overlap.
+## Check the before/after ranks manually, then confirm in the plot that tied
+## analytical ranks do not cause boxes to overlap.
 
 
 ## 11. Prepared display labels -----------------------------------------------
@@ -616,7 +614,7 @@ plot_factor_periods
 ## 17. Final manual review checklist -----------------------------------------
 
 ## [ ] ggrank() works with the three required mappings only.
-## [ ] ggrank_table() exposes understandable analytical and layout columns.
+## [ ] ggrank_table() returns understandable before/after analytical columns.
 ## [ ] theme_ggrank() works independently.
 ## [ ] Two, three, and four-state layouts are readable.
 ## [ ] Requested period order is respected.

@@ -16,5 +16,7 @@ ggrank_products
 }
 \description{
 A general-purpose teaching dataset of product sales across three years.
+Every product name, ranking, and sales value is synthetic and was generated
+specifically for package teaching examples.
 }
 \keyword{datasets}

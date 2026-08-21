@@ -2,7 +2,7 @@
 % Please edit documentation in R/ggrank-table.R
 \name{ggrank_table}
 \alias{ggrank_table}
-\title{Build a rank-transition table}
+\title{Build a readable rank-transition table}
 \usage{
 ggrank_table(
   data,
@@ -41,20 +41,24 @@ values rank first.}
 
 \item{ties}{Ranking method: \code{"first"}, \code{"min"}, or \code{"dense"}.}
 
-\item{show_transitions}{\code{"boundary"} retains the union of categories in the
-top N in any selected state; \code{"top_only"} only displays top-N observations;
-\code{"all"} displays every category.}
+\item{show_transitions}{\code{"boundary"} retains categories appearing in the
+top N in any selected state; \code{"top_only"} includes top-N observations
+only; \code{"all"} includes every category.}
 }
 \value{
-A data frame with one row per displayed category-state observation.
-Its \code{status} and \code{rank_change} compare each observation with the preceding
-selected state. Additional layout columns are used by \code{\link[=ggrank]{ggrank()}}.
+A data frame with category, transition states, ranks, rank change,
+values, value change, labels, group, and movement status. Positive
+\code{rank_change} means that a category rose in the ranking.
 }
 \description{
-Calculates or uses supplied ranks and identifies categories that rise, fall,
-remain stable, enter, or exit the selected top ranks. The first release
-compares two to four ordered states.
+Produces the analytical companion to \code{\link[=ggrank]{ggrank()}}. Each row compares a
+category between two adjacent selected states. A two-state comparison has
+one row per category; three or four states produce successive transition
+rows such as 1990 to 2010 and 2010 to 2021.
 }
 \examples{
-ggrank_table(ggrank_products, product, year, sales, top_n = 5)
+ggrank_table(
+  ggrank_products, product, year, sales,
+  periods = c(2022, 2024), top_n = 5
+)
 }

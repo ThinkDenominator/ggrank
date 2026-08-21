@@ -52,9 +52,9 @@ values rank first.}
 
 \item{ties}{Ranking method: \code{"first"}, \code{"min"}, or \code{"dense"}.}
 
-\item{show_transitions}{\code{"boundary"} retains the union of categories in the
-top N in any selected state; \code{"top_only"} only displays top-N observations;
-\code{"all"} displays every category.}
+\item{show_transitions}{\code{"boundary"} retains categories appearing in the
+top N in any selected state; \code{"top_only"} includes top-N observations
+only; \code{"all"} includes every category.}
 
 \item{colour_by}{Colour categories by \code{"group"}, \code{"movement"}, or \code{"none"}.
 The default \code{"auto"} uses groups when supplied and movement otherwise.}
