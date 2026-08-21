@@ -32,3 +32,16 @@ test_that("validation catches duplicate category-period rows", {
 test_that("ggrank returns a ggplot", {
   expect_s3_class(ggrank(ggrank::ggrank_products, product, year, sales, top_n = 5), "ggplot")
 })
+
+test_that("tied ranks receive distinct display positions", {
+  x <- data.frame(period = rep(c("a", "b"), each = 3), item = rep(letters[1:3], 2), value = c(3, 2, 2, 3, 2, 2))
+  z <- ggrank_table(x, item, period, value, top_n = 3, ties = "dense")
+  expect_equal(length(unique(z$display_position[z$period == "a"])), 3)
+})
+
+test_that("layout widths must be positive", {
+  expect_error(
+    ggrank(ggrank::ggrank_products, product, year, sales, value_width = 0),
+    "positive numbers"
+  )
+})

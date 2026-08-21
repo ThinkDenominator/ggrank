@@ -493,6 +493,31 @@ plot_long_labels
 
 ## Check wrapping, row height, clipping, and value-box alignment carefully.
 
+## Keep the two-column structure but rebalance the available width when either
+## category names or value labels are unusually long.
+plot_wider_value_boxes <- ggrank(
+  data = ggrank_causes,
+  category = cause,
+  period = year,
+  value = rate,
+  rank = rank,
+  label = display_value,
+  group = cause_group,
+  periods = c(1990, 2010, 2021),
+  top_n = 8,
+  label_wrap = 22,
+  category_width = 2.5,
+  value_width = 1.8,
+  state_gap = 1.25,
+  value_header = "Rate (95% interval)",
+  title = "User-adjusted category and value widths"
+)
+
+plot_wider_value_boxes
+
+## Check that wider value boxes retain clear separation from category text and
+## that connectors still begin and end at the relevant box boundaries.
+
 
 ## 13. Standard ggplot2 customisation ----------------------------------------
 
@@ -603,6 +628,7 @@ plot_factor_periods
 ## [ ] Group, movement, and neutral colour modes are coherent.
 ## [ ] Named custom palettes map to the correct categories.
 ## [ ] Long labels wrap without clipping or overlapping adjacent rows.
+## [ ] Rank numbers remain aligned when category labels wrap.
+## [ ] Width controls preserve separate category and value boxes.
 ## [ ] Standard ggplot2 customisation remains available.
 ## [ ] Validation errors tell the user how to correct the input.
-

@@ -22,6 +22,9 @@ ggrank(
   category_header = "Category",
   value_header = "Value",
   label_wrap = 28,
+  category_width = 2.4,
+  value_width = 1.55,
+  state_gap = 1.15,
   base_size = 11,
   title = NULL,
   subtitle = NULL
@@ -61,6 +64,11 @@ The default \code{"auto"} uses groups when supplied and movement otherwise.}
 \item{category_header, value_header}{Headers shown over the two box columns.}
 
 \item{label_wrap}{Approximate number of characters per category-label line.}
+
+\item{category_width, value_width}{Relative widths of the category and value
+boxes. Increase \code{value_width} for long confidence-interval labels.}
+
+\item{state_gap}{Horizontal space reserved for connectors between states.}
 
 \item{base_size}{Base text size passed to \code{\link[=theme_ggrank]{theme_ggrank()}}.}
 

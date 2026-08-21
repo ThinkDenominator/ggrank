@@ -91,7 +91,7 @@ ggrank_table <- function(data, category, period, value, rank = NULL,
   out <- dplyr::group_by(out, .period_index)
   out <- dplyr::arrange(out, rank, .category, .by_group = TRUE)
   out <- dplyr::mutate(out,
-    display_position = ifelse(rank <= top_n, rank, top_n + cumsum(rank > top_n)),
+    display_position = dplyr::row_number(),
     in_top = rank <= top_n
   )
   out <- dplyr::ungroup(out)
