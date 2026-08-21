@@ -88,12 +88,16 @@
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="reference/ggrank_change.html">ggrank_change</a></span><span class="op">(</span><span class="va">changes</span>, top <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></code></pre></div>
+<p>For a point-and-click workflow, launch the local Shiny interface:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/ggrank_app.html">ggrank_app</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>The app uses the same package functions. It can open the synthetic teaching data or an uploaded CSV, create the ranking, display both charts, and show the rank-change table.</p>
 </div>
 <div class="section level2">
 <h2 id="how-ranks-are-calculated">How ranks are calculated<a class="anchor" aria-label="anchor" href="#how-ranks-are-calculated"></a>
 </h2>
 <p>Normally, supply one numeric value for each category and period; you do not need to create a rank column. <code><a href="reference/ggrank.html">ggrank()</a></code> ranks the exact values within each period before applying <code>top_n</code>.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/ggrank_data.html">ggrank_data</a></span><span class="op">(</span><span class="va">ggrank_products</span>, <span class="va">product</span>, <span class="va">year</span>, <span class="va">sales</span><span class="op">)</span></span></code></pre></div>
 <p>Equal values share a competition rank by default (<code>1, 2, 3, 3, 5</code>). They are placed on separate rows and all categories tied at the <code>top_n</code> boundary are retained. <code>value</code> controls ranking, while an optional <code>label</code> controls only the printed formatting. Do not pre-filter data to the top N: supply all relevant categories so entrants and exits can be identified.</p>
 </div>
@@ -101,7 +105,7 @@
 <h2 id="exporting-results">Exporting results<a class="anchor" aria-label="anchor" href="#exporting-results"></a>
 </h2>
 <p><code><a href="reference/ggrank.html">ggrank()</a></code> returns an ordinary ggplot object, so use standard R tools:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/ggrank.html">ggrank</a></span><span class="op">(</span><span class="va">ggrank_products</span>, <span class="va">product</span>, <span class="va">year</span>, <span class="va">sales</span>, top_n <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsave.html" class="external-link">ggsave</a></span><span class="op">(</span></span>

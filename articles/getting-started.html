@@ -172,7 +172,7 @@ and other ggplot2 layers can be added normally.</p>
 <p><code><a href="../reference/ggrank_table.html">ggrank_table()</a></code> returns a readable analytical companion
 with one row per category and adjacent transition.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/ggrank_table.html">ggrank_table</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="va">changes</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggrank_table.html">ggrank_table</a></span><span class="op">(</span></span>
 <span>  <span class="va">ggrank_products</span>,</span>
 <span>  category <span class="op">=</span> <span class="va">product</span>,</span>
 <span>  period <span class="op">=</span> <span class="va">year</span>,</span>
@@ -180,6 +180,8 @@ with one row per category and adjacent transition.</p>
 <span>  periods <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2022</span>, <span class="fl">2024</span><span class="op">)</span>,</span>
 <span>  top_n <span class="op">=</span> <span class="fl">5</span></span>
 <span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">changes</span></span>
 <span><span class="co">#&gt;    category from   to rank_from rank_to rank_change value_from value_to</span></span>
 <span><span class="co">#&gt; 1 Product B 2022 2024         2       1           1       7034     8068</span></span>
 <span><span class="co">#&gt; 2 Product D 2022 2024         4       2           2       5034     7068</span></span>
@@ -194,6 +196,24 @@ with one row per category and adjacent transition.</p>
 <span><span class="co">#&gt; 4        -2966       8034     5068  &lt;NA&gt;        FALSE      FALSE  faller</span></span>
 <span><span class="co">#&gt; 5         3034       1034     4068  &lt;NA&gt;        FALSE      FALSE entrant</span></span>
 <span><span class="co">#&gt; 6        -2966       6034     3068  &lt;NA&gt;        FALSE      FALSE    exit</span></span></code></pre></div>
+<p>Visualise the largest rises and falls directly from that table.
+Positive values moved towards rank one; negative values moved away from
+rank one.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/ggrank_change.html">ggrank_change</a></span><span class="op">(</span><span class="va">changes</span>, top <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></code></pre></div>
+<p><img src="getting-started_files/figure-html/unnamed-chunk-6-1.png" class="r-plt" alt="" width="960"></p>
+</div>
+<div class="section level2">
+<h2 id="use-the-graphical-interface">Use the graphical interface<a class="anchor" aria-label="anchor" href="#use-the-graphical-interface"></a>
+</h2>
+<p>Launch the optional local Shiny interface when you prefer to choose
+columns and settings interactively:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/ggrank_app.html">ggrank_app</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>Start with either synthetic teaching dataset or upload a CSV. The GUI
+presents the rank chart, change chart, analytical table, and calculated
+rank data in separate tabs. Close the Shiny window or stop the R process
+to return to the console.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

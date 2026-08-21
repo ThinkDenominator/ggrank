@@ -126,7 +126,7 @@ adjacent transition.
 
 ``` r
 
-ggrank_table(
+changes <- ggrank_table(
   ggrank_products,
   category = product,
   period = year,
@@ -134,6 +134,8 @@ ggrank_table(
   periods = c(2022, 2024),
   top_n = 5
 )
+
+changes
 #>    category from   to rank_from rank_to rank_change value_from value_to
 #> 1 Product B 2022 2024         2       1           1       7034     8068
 #> 2 Product D 2022 2024         4       2           2       5034     7068
@@ -149,3 +151,28 @@ ggrank_table(
 #> 5         3034       1034     4068  <NA>        FALSE      FALSE entrant
 #> 6        -2966       6034     3068  <NA>        FALSE      FALSE    exit
 ```
+
+Visualise the largest rises and falls directly from that table. Positive
+values moved towards rank one; negative values moved away from rank one.
+
+``` r
+
+ggrank_change(changes, top = 5)
+```
+
+![](getting-started_files/figure-html/unnamed-chunk-6-1.png)
+
+## Use the graphical interface
+
+Launch the optional local Shiny interface when you prefer to choose
+columns and settings interactively:
+
+``` r
+
+ggrank_app()
+```
+
+Start with either synthetic teaching dataset or upload a CSV. The GUI
+presents the rank chart, change chart, analytical table, and calculated
+rank data in separate tabs. Close the Shiny window or stop the R process
+to return to the console.

@@ -27,3 +27,7 @@
   to visualise the largest rises and falls from a
   [`ggrank_table()`](https://thinkdenominator.github.io/ggrank/reference/ggrank_table.md)
   result.
+- Added
+  [`ggrank_app()`](https://thinkdenominator.github.io/ggrank/reference/ggrank_app.md)
+  as an optional local Shiny interface for the existing ranking, table,
+  and visualisation workflow.
