@@ -11,8 +11,9 @@
 #' positions so their plot boxes do not overlap.
 #'
 #' @param data A data frame with one row per category and period.
-#' @param category,period,value Unquoted columns identifying the category,
-#'   state, and numeric ranking value.
+#' @param category,period Unquoted columns identifying the category and state.
+#' @param value Optional unquoted numeric ranking-value column. It may be
+#'   omitted when an authoritative `rank` column is supplied.
 #' @param rank Optional unquoted column containing authoritative precomputed
 #'   ranks. When supplied, these ranks are preserved.
 #' @param label Optional unquoted display-label column.
@@ -39,7 +40,14 @@
 #'   rate = c(5, 4, 3, 3, 6, 4, 4, 2)
 #' )
 #' ggrank_data(tied, organism, year, rate)
-ggrank_data <- function(data, category, period, value, rank = NULL,
+#'
+#' ranks_only <- data.frame(
+#'   year = rep(c(2024, 2025), each = 3),
+#'   student = rep(c("A", "B", "C"), 2),
+#'   rank = c(1, 2, 3, 2, 1, 3)
+#' )
+#' ggrank_data(ranks_only, student, year, rank = rank)
+ggrank_data <- function(data, category, period, value = NULL, rank = NULL,
                         label = NULL, group = NULL, periods = NULL,
                         direction = c("descending", "ascending"),
                         ties = c("min", "dense", "first"),
@@ -48,6 +56,7 @@ ggrank_data <- function(data, category, period, value, rank = NULL,
   ties <- match.arg(ties)
 
   period_q <- rlang::enquo(period)
+  value_q <- rlang::enquo(value)
 
   if (!is.data.frame(data)) stop("`data` must be a data frame.", call. = FALSE)
   if (is.null(periods)) {
@@ -68,7 +77,7 @@ ggrank_data <- function(data, category, period, value, rank = NULL,
   result <- data.frame(
     category = prepared$category,
     period = prepared$period,
-    value = prepared$value,
+    value = if (rlang::quo_is_null(value_q)) NA_real_ else prepared$value,
     rank = prepared$rank,
     display_position = prepared$display_position,
     label = prepared$label,

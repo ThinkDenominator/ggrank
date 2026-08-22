@@ -5,7 +5,9 @@
 #' data are processed by [ggrank_table()], preserving one ranking engine.
 #'
 #' @param data Raw data or a rank-change table returned by [ggrank_table()].
-#' @param category,period,value Unquoted columns used with raw `data`.
+#' @param category,period Unquoted columns used with raw `data`.
+#' @param value Optional numeric value column. It may be omitted when `rank` is
+#'   supplied.
 #' @param rank,label,group Optional unquoted columns used with raw `data`.
 #' @param periods Optional vector selecting and ordering two to four periods.
 #' @param top Maximum categories displayed per comparison, selected by
@@ -73,8 +75,8 @@ ggrank_change <- function(data, category = NULL, period = NULL, value = NULL,
     changes <- data
   } else {
     if (rlang::quo_is_null(category_q) || rlang::quo_is_null(period_q) ||
-        rlang::quo_is_null(value_q)) {
-      stop("Raw `data` requires `category`, `period`, and `value` columns.",
+        (rlang::quo_is_null(value_q) && rlang::quo_is_null(rank_q))) {
+      stop("Raw `data` requires `category`, `period`, and either `value` or `rank`.",
            call. = FALSE)
     }
     changes <- ggrank_table(

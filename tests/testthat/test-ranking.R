@@ -25,6 +25,34 @@ test_that("supplied ranks and labels are retained", {
   expect_equal(z$label_to[match(c("A", "B"), z$category)], c("n=3", "n=4"))
 })
 
+test_that("authoritative ranks work without a value column", {
+  x <- data.frame(
+    year = rep(c(2024, 2025), each = 4),
+    student = rep(c("Asha", "Ben", "Chen", "Dina"), 2),
+    institution = "North School",
+    supplied_rank = c(1, 2, 3, 4, 3, 1, 2, 4)
+  )
+  ranked <- ggrank_data(x, student, year, rank = supplied_rank)
+  expected_key <- paste(x$student, x$year)
+  ranked_key <- paste(ranked$category, ranked$period)
+  expect_equal(ranked$rank, x$supplied_rank[match(ranked_key, expected_key)])
+  expect_true(all(is.na(ranked$value)))
+  changes <- ggrank_table(x, student, year, rank = supplied_rank,
+                          group = institution, top_n = 3)
+  expect_true(all(is.na(changes$value_from)))
+  expect_true(all(is.na(changes$value_to)))
+  expect_equal(changes$rank_change[changes$category == "Ben"], 1)
+  expect_s3_class(ggrank(x, student, year, rank = supplied_rank,
+                         group = institution, top_n = 3), "ggplot")
+  expect_s3_class(ggrank_change(x, student, year, rank = supplied_rank,
+                                top = 3), "ggplot")
+})
+
+test_that("ranking requires either value or rank", {
+  x <- data.frame(year = c(2024, 2025), student = "A")
+  expect_error(ggrank_data(x, student, year), "either a numeric `value`")
+})
+
 test_that("validation catches duplicate category-period rows", {
   x <- data.frame(period = c(1,1,2), item = c("a","a","a"), value = 1:3)
   expect_error(ggrank_table(x, item, period, value), "exactly once")
@@ -136,6 +164,47 @@ test_that("the packaged GUI and launcher are available", {
   expect_match(app_text, "Download .R", fixed = TRUE)
   expect_match(app_text, "Close app", fixed = TRUE)
   expect_match(app_text, "local app session", fixed = TRUE)
+})
+
+test_that("the GUI runs value and rank-only workflows", {
+  skip_if_not_installed("shiny")
+  app_environment <- new.env(parent = globalenv())
+  sys.source(system.file("shiny", "ggrank", "app.R", package = "ggrank"),
+             envir = app_environment)
+  shiny::testServer(app_environment$server, {
+    session$setInputs(
+      source = "products", category = "product", period = "year",
+      ranking_source = "value", value = "sales", rank = "sales",
+      rank_value = "None", label = "None", group = "category",
+      periods = c("2022", "2023", "2024"), top_n = 5,
+      direction = "descending", ties = "min",
+      change_comparison = "latest", change_label = "change",
+      show_stable = FALSE, draw = 1, view = "Change chart"
+    )
+    session$flushReact()
+    expect_s3_class(outputs()$rank_plot, "ggplot")
+    expect_s3_class(outputs()$change_plot, "ggplot")
+  })
+
+  rank_environment <- new.env(parent = globalenv())
+  sys.source(system.file("shiny", "ggrank", "app.R", package = "ggrank"),
+             envir = rank_environment)
+  shiny::testServer(rank_environment$server, {
+    session$setInputs(
+      source = "causes", category = "cause", period = "year",
+      ranking_source = "rank", value = "rate", rank = "rank",
+      rank_value = "None", label = "display_value", group = "cause_group",
+      periods = c("1990", "2021"), top_n = 10,
+      direction = "descending", ties = "min",
+      change_comparison = "latest", change_label = "ranks",
+      show_stable = FALSE, draw = 1, view = "Rank chart"
+    )
+    session$flushReact()
+    expect_s3_class(outputs()$rank_plot, "ggplot")
+    expect_true(all(is.na(outputs()$table$value_from)))
+    expect_match(analysis_code(), "rank = `rank`", fixed = TRUE)
+    expect_false(grepl("value =", analysis_code(), fixed = TRUE))
+  })
 })
 
 test_that("tied ranks receive distinct display positions", {

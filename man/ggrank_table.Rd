@@ -8,7 +8,7 @@ ggrank_table(
   data,
   category,
   period,
-  value,
+  value = NULL,
   rank = NULL,
   label = NULL,
   group = NULL,
@@ -23,8 +23,11 @@ ggrank_table(
 \arguments{
 \item{data}{A data frame with one row per category and period.}
 
-\item{category, period, value}{Unquoted columns identifying the category,
-ordered state, and numeric value.}
+\item{category, period}{Unquoted columns identifying the category and ordered
+state.}
+
+\item{value}{Optional unquoted numeric ranking-value column. It may be
+omitted when an authoritative \code{rank} column is supplied.}
 
 \item{rank}{Optional unquoted column containing precomputed ranks.}
 

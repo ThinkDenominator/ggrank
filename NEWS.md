@@ -21,3 +21,7 @@
   detailed rank labels, within-comparison ordering, and wrapped labels.
 * Added palette, legend-title, legend-label, and legend-visibility controls to
   both primary visualisations.
+* Added rank-only workflows across the package and GUI. Authoritative ranks can
+  now be plotted without inventing a value, mark, rate, or score column.
+* Reworked the GUI as a four-step guided workflow with basic/advanced settings,
+  embedded data examples, and independent error handling for the change chart.

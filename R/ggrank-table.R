@@ -5,8 +5,10 @@
 #' compares two to four ordered states.
 #'
 #' @param data A data frame with one row per category and period.
-#' @param category,period,value Unquoted columns identifying the category,
-#'   ordered state, and numeric value.
+#' @param category,period Unquoted columns identifying the category and ordered
+#'   state.
+#' @param value Optional unquoted numeric ranking-value column. It may be
+#'   omitted when `rank` is supplied.
 #' @param rank Optional unquoted column containing precomputed ranks.
 #' @param label Optional unquoted display-label column. By default `value` is
 #'   formatted using `format()`.
@@ -25,7 +27,7 @@
 #'
 #' @return An internal data frame used to construct plots and tables.
 #' @noRd
-.prepare_ggrank_data <- function(data, category, period, value, rank = NULL,
+.prepare_ggrank_data <- function(data, category, period, value = NULL, rank = NULL,
                                  label = NULL, group = NULL, periods = NULL,
                                  top_n = 10,
                                  direction = c("descending", "ascending"),
@@ -48,10 +50,30 @@
     stop("`top_n` must be one positive whole number.", call. = FALSE)
   }
 
-  out <- dplyr::select(data, .category = !!category_q, .period = !!period_q,
-                       .value = !!value_q)
-  out$.rank_input <- if (rlang::quo_is_null(rank_q)) NA_real_ else dplyr::pull(data, !!rank_q)
-  out$.label <- if (rlang::quo_is_null(label_q)) format(out$.value, trim = TRUE) else as.character(dplyr::pull(data, !!label_q))
+  has_value <- !rlang::quo_is_null(value_q)
+  has_rank <- !rlang::quo_is_null(rank_q)
+  if (!has_value && !has_rank) {
+    stop("Supply either a numeric `value` column or an authoritative `rank` column.", call. = FALSE)
+  }
+  out <- dplyr::select(data, .category = !!category_q, .period = !!period_q)
+  out$.rank_input <- if (!has_rank) NA_real_ else dplyr::pull(data, !!rank_q)
+  if (has_rank && !is.numeric(out$.rank_input)) {
+    stop("`rank` must be numeric.", call. = FALSE)
+  }
+  out$.value <- if (has_value) {
+    dplyr::pull(data, !!value_q)
+  } else if (direction == "descending") {
+    -out$.rank_input
+  } else {
+    out$.rank_input
+  }
+  out$.label <- if (!rlang::quo_is_null(label_q)) {
+    as.character(dplyr::pull(data, !!label_q))
+  } else if (has_value) {
+    format(out$.value, trim = TRUE)
+  } else {
+    ""
+  }
   out$.group <- if (rlang::quo_is_null(group_q)) NA_character_ else as.character(dplyr::pull(data, !!group_q))
 
   if (anyNA(out$.category) || anyNA(out$.period)) stop("`category` and `period` cannot contain missing values.", call. = FALSE)
@@ -69,7 +91,7 @@
   }
   if (any(!periods %in% available)) stop("Every requested period must occur in `data`.", call. = FALSE)
   out <- dplyr::filter(out, .period %in% periods)
-  invalid_value <- !is.finite(out$.value)
+  invalid_value <- if (has_value) !is.finite(out$.value) else rep(FALSE, nrow(out))
   if (any(invalid_value)) {
     warning(sum(invalid_value), " row", if (sum(invalid_value) == 1L) " was" else "s were",
             " excluded because `value` was missing or non-finite.", call. = FALSE)
@@ -181,8 +203,10 @@
 #' rows such as 1990 to 2010 and 2010 to 2021.
 #'
 #' @param data A data frame with one row per category and period.
-#' @param category,period,value Unquoted columns identifying the category,
-#'   ordered state, and numeric value.
+#' @param category,period Unquoted columns identifying the category and ordered
+#'   state.
+#' @param value Optional unquoted numeric ranking-value column. It may be
+#'   omitted when an authoritative `rank` column is supplied.
 #' @param rank Optional unquoted column containing precomputed ranks.
 #' @param label Optional unquoted display-label column. By default `value` is
 #'   formatted using `format()`.
@@ -221,7 +245,7 @@
 #'   ggrank_products, product, year, sales,
 #'   periods = c(2022, 2024), top_n = 5
 #' )
-ggrank_table <- function(data, category, period, value, rank = NULL,
+ggrank_table <- function(data, category, period, value = NULL, rank = NULL,
                          label = NULL, group = NULL, periods = NULL,
                          top_n = 10, direction = c("descending", "ascending"),
                          ties = c("min", "dense", "first"),
@@ -237,15 +261,17 @@ ggrank_table <- function(data, category, period, value, rank = NULL,
     ties = ties, show_transitions = show_transitions, check_rank = check_rank
   )
 
-  raw_values <- data.frame(
-    category = as.character(dplyr::pull(data, !!category_q)),
-    period = as.character(dplyr::pull(data, !!period_q)),
-    value = dplyr::pull(data, !!value_q),
-    stringsAsFactors = FALSE
-  )
-  missing_keys <- paste(raw_values$category, raw_values$period)[
-    !is.finite(raw_values$value)
-  ]
+  has_value <- !rlang::quo_is_null(value_q)
+  if (has_value) {
+    raw_values <- data.frame(
+      category = as.character(dplyr::pull(data, !!category_q)),
+      period = as.character(dplyr::pull(data, !!period_q)),
+      value = dplyr::pull(data, !!value_q), stringsAsFactors = FALSE
+    )
+    missing_keys <- paste(raw_values$category, raw_values$period)[!is.finite(raw_values$value)]
+  } else {
+    missing_keys <- character()
+  }
 
   period_order <- unique(prepared$.period_label[order(prepared$.period_index)])
   transition_tables <- vector("list", length(period_order) - 1L)
@@ -284,6 +310,11 @@ ggrank_table <- function(data, category, period, value, rank = NULL,
   }
 
   result <- dplyr::bind_rows(transition_tables)
+  if (!has_value) {
+    result$value_from <- NA_real_
+    result$value_to <- NA_real_
+    result$value_change <- NA_real_
+  }
   result <- dplyr::arrange(result, transition_index,
                            is.na(rank_to), rank_to,
                            is.na(rank_from), rank_from, category)

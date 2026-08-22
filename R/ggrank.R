@@ -33,7 +33,7 @@
 #'   rank = rank, label = display_value, group = cause_group,
 #'   periods = c(1990, 2021), top_n = 10
 #' )
-ggrank <- function(data, category, period, value, rank = NULL, label = NULL,
+ggrank <- function(data, category, period, value = NULL, rank = NULL, label = NULL,
                    group = NULL, periods = NULL, top_n = 10,
                    direction = c("descending", "ascending"),
                    ties = c("min", "dense", "first"),
@@ -50,6 +50,8 @@ ggrank <- function(data, category, period, value, rank = NULL, label = NULL,
   show_transitions <- match.arg(show_transitions)
   colour_by <- match.arg(colour_by)
   group_q <- rlang::enquo(group)
+  value_q <- rlang::enquo(value)
+  has_value <- !rlang::quo_is_null(value_q)
   tbl <- .prepare_ggrank_data(data, {{ category }}, {{ period }}, {{ value }},
     rank = {{ rank }}, label = {{ label }}, group = {{ group }}, periods = periods,
     top_n = top_n, direction = direction, ties = ties,
@@ -107,7 +109,7 @@ ggrank <- function(data, category, period, value, rank = NULL, label = NULL,
   }
 
   inner_gap <- 0.08
-  state_width <- category_width + inner_gap + value_width
+  state_width <- if (has_value) category_width + inner_gap + value_width else category_width
   spacing <- state_width + state_gap
   tbl$x <- (tbl$.period_index - 1) * spacing
   wrapped <- strwrap(as.character(tbl$category), width = label_wrap,
@@ -127,12 +129,13 @@ ggrank <- function(data, category, period, value, rank = NULL, label = NULL,
   tbl$rank_x <- tbl$category_left + 0.12
   tbl$category_x <- tbl$category_left + 0.42
   tbl$value_x <- (tbl$value_left + tbl$value_right) / 2
+  tbl$link_right <- if (has_value) tbl$value_right else tbl$category_right
   link_targets <- tbl[, c(".category", ".period_index", "category_left", "y")]
   names(link_targets)[names(link_targets) == ".period_index"] <- ".period_index_next"
   names(link_targets)[names(link_targets) == "category_left"] <- "category_left_next"
   names(link_targets)[names(link_targets) == "y"] <- "y_next"
   links <- merge(
-    tbl[, c(".category", ".period_index", "value_right", "y", ".colour")],
+    tbl[, c(".category", ".period_index", "link_right", "y", ".colour")],
     link_targets,
     by = ".category"
   )
@@ -143,16 +146,20 @@ ggrank <- function(data, category, period, value, rank = NULL, label = NULL,
   headers$category_left <- headers$x - state_width / 2
   headers$value_x <- headers$category_left + category_width + inner_gap + value_width / 2
   p <- ggplot2::ggplot()
-  if (nrow(links)) p <- p + ggplot2::geom_segment(data = links, ggplot2::aes(x = value_right, xend = category_left_next, y = y, yend = y_next, colour = .colour), linewidth = 0.7, alpha = 0.75)
+  if (nrow(links)) p <- p + ggplot2::geom_segment(data = links, ggplot2::aes(x = link_right, xend = category_left_next, y = y, yend = y_next, colour = .colour), linewidth = 0.7, alpha = 0.75)
   p <- p +
     ggplot2::geom_rect(data = tbl, ggplot2::aes(xmin = category_left, xmax = category_right, ymin = y - box_h, ymax = y + box_h, colour = .colour, fill = .colour), linewidth = 0.55, alpha = 0.10) +
-    ggplot2::geom_rect(data = tbl, ggplot2::aes(xmin = value_left, xmax = value_right, ymin = y - box_h, ymax = y + box_h, colour = .colour), fill = "white", linewidth = 0.55) +
     ggplot2::geom_text(data = tbl, ggplot2::aes(x = rank_x, y = y, label = rank), hjust = 0, size = base_size / 3.2) +
     ggplot2::geom_text(data = tbl, ggplot2::aes(x = category_x, y = y, label = category_text), hjust = 0, lineheight = 0.9, size = base_size / 3.2) +
-    ggplot2::geom_text(data = tbl, ggplot2::aes(x = value_x, y = y, label = label), size = base_size / 3.6) +
     ggplot2::geom_text(data = headers, ggplot2::aes(x = x, y = 0.8, label = .period_label), fontface = "bold", size = base_size / 2.6) +
-    ggplot2::geom_text(data = headers, ggplot2::aes(x = category_left, y = 0.15, label = category_header), hjust = 0, fontface = "bold", size = base_size / 3.2) +
-    ggplot2::geom_text(data = headers, ggplot2::aes(x = value_x, y = 0.15, label = value_header), fontface = "bold", size = base_size / 3.2) +
+    ggplot2::geom_text(data = headers, ggplot2::aes(x = category_left, y = 0.15, label = category_header), hjust = 0, fontface = "bold", size = base_size / 3.2)
+  if (has_value) {
+    p <- p +
+      ggplot2::geom_rect(data = tbl, ggplot2::aes(xmin = value_left, xmax = value_right, ymin = y - box_h, ymax = y + box_h, colour = .colour), fill = "white", linewidth = 0.55) +
+      ggplot2::geom_text(data = tbl, ggplot2::aes(x = value_x, y = y, label = label), size = base_size / 3.6) +
+      ggplot2::geom_text(data = headers, ggplot2::aes(x = value_x, y = 0.15, label = value_header), fontface = "bold", size = base_size / 3.2)
+  }
+  p <- p +
     ggplot2::scale_color_manual(
       values = palette, breaks = levels_colour,
       labels = unname(legend_labels[levels_colour]), name = legend_title,

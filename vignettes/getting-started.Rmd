@@ -81,6 +81,35 @@ ggrank(
 )
 ```
 
+## Use existing ranks without marks or values
+
+If a school, institution, or report already supplies authoritative ranks, no
+mark, rate, score, or other value column is needed.
+
+```{r}
+student_ranks <- data.frame(
+  year = rep(c(2024, 2025), each = 4),
+  student = rep(c("Asha", "Ben", "Chen", "Dina"), 2),
+  institution = "North School",
+  rank = c(1, 2, 3, 4, 3, 1, 2, 4)
+)
+
+ggrank(
+  student_ranks,
+  category = student,
+  period = year,
+  rank = rank,
+  group = institution,
+  top_n = 4
+)
+```
+
+The rank-only layout omits the value boxes. The same input works with
+`ggrank_data()`, `ggrank_table()`, and `ggrank_change()`. Ranks must be finite,
+positive whole numbers. `group` changes colours; it does not calculate ranks
+separately for each group. Separate institutional ranking lists should be
+analysed separately or represented by distinct period/list identifiers.
+
 ## Group colours and prepared labels
 
 Use `group` for meaningful category colours and `label` when values require a

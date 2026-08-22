@@ -8,7 +8,7 @@ ggrank_data(
   data,
   category,
   period,
-  value,
+  value = NULL,
   rank = NULL,
   label = NULL,
   group = NULL,
@@ -21,8 +21,10 @@ ggrank_data(
 \arguments{
 \item{data}{A data frame with one row per category and period.}
 
-\item{category, period, value}{Unquoted columns identifying the category,
-state, and numeric ranking value.}
+\item{category, period}{Unquoted columns identifying the category and state.}
+
+\item{value}{Optional unquoted numeric ranking-value column. It may be
+omitted when an authoritative \code{rank} column is supplied.}
 
 \item{rank}{Optional unquoted column containing authoritative precomputed
 ranks. When supplied, these ranks are preserved.}
@@ -69,4 +71,11 @@ tied <- data.frame(
   rate = c(5, 4, 3, 3, 6, 4, 4, 2)
 )
 ggrank_data(tied, organism, year, rate)
+
+ranks_only <- data.frame(
+  year = rep(c(2024, 2025), each = 3),
+  student = rep(c("A", "B", "C"), 2),
+  rank = c(1, 2, 3, 2, 1, 3)
+)
+ggrank_data(ranks_only, student, year, rank = rank)
 }

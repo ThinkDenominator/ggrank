@@ -29,6 +29,11 @@ ggrank_app()
 ## and receives all four outputs. Confirm that the local-session privacy note
 ## is noticed.
 
+## Task 5a: Upload rank-only student data with student, year, and rank columns.
+## Success: participant selects Use an existing rank column, creates both plots
+## without inventing a marks/value column, and notices that advanced options are
+## available without blocking the basic four-step workflow.
+
 ## Task 6: Reproduce the result outside the app.
 ## Success: participant finds Reusable R code, downloads the .R file, and can
 ## explain that the GUI calls ggrank_data(), ggrank_table(), ggrank(), and

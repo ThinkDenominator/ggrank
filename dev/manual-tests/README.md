@@ -18,3 +18,6 @@ review principle used by the gtstats and gtregression apps.
 Use `04-rank-change-and-legends.R` to review latest/all/explicit comparisons,
 stable categories, detailed change labels, long names, palettes, legend titles,
 legend labels, and legend suppression. It contains no loops.
+
+Use `05-rank-only-workflow.R` to verify student/product/institution rankings
+that contain names and authoritative ranks but no marks, rates, or values.

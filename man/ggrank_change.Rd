@@ -36,7 +36,10 @@ ggrank_change(
 \arguments{
 \item{data}{Raw data or a rank-change table returned by \code{\link[=ggrank_table]{ggrank_table()}}.}
 
-\item{category, period, value}{Unquoted columns used with raw \code{data}.}
+\item{category, period}{Unquoted columns used with raw \code{data}.}
+
+\item{value}{Optional numeric value column. It may be omitted when \code{rank} is
+supplied.}
 
 \item{rank, label, group}{Optional unquoted columns used with raw \code{data}.}
 
