@@ -207,6 +207,14 @@
 #'   values, value change, labels, group, missing-value indicators, and movement
 #'   status. Positive
 #'   `rank_change` means that a category rose in the ranking.
+#'
+#' @details
+#' Rank change is calculated as `rank_from - rank_to`: positive values rose
+#' towards rank one, negative values fell, and zero is stable. `status` is
+#' `"entrant"` when a category crosses from outside to inside `top_n`, and
+#' `"exit"` for the reverse. These boundary statuses take precedence over
+#' `"riser"` and `"faller"`. `"new"` and `"absent"` indicate that a category
+#' exists on only one side; `"missing"` identifies a supplied non-finite value.
 #' @export
 #' @examples
 #' ggrank_table(

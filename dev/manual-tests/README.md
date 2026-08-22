@@ -14,3 +14,7 @@ displayed values, ascending ranks, supplied ranks, and missing values.
 
 Use `03-ggrank-app-usability-check.R` for the same short, uncoached usability
 review principle used by the gtstats and gtregression apps.
+
+Use `04-rank-change-and-legends.R` to review latest/all/explicit comparisons,
+stable categories, detailed change labels, long names, palettes, legend titles,
+legend labels, and legend suppression. It contains no loops.

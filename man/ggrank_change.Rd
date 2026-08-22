@@ -6,36 +6,90 @@
 \usage{
 ggrank_change(
   data,
+  category = NULL,
+  period = NULL,
+  value = NULL,
+  rank = NULL,
+  label = NULL,
+  group = NULL,
+  periods = NULL,
   top = 15,
-  palette = c(riser = "#17845B", faller = "#C44E52", stable = "#667085"),
+  top_n = 10,
+  direction = c("descending", "ascending"),
+  ties = c("min", "dense", "first"),
+  check_rank = TRUE,
+  comparison = c("latest", "all"),
+  from = NULL,
+  to = NULL,
+  show_stable = FALSE,
+  change_label = c("change", "ranks", "none"),
+  label_wrap = 30,
+  palette = c(riser = "#0072B2", faller = "#D55E00", stable = "#667085"),
+  legend_title = NULL,
+  legend_labels = NULL,
+  show_legend = TRUE,
   base_size = 11,
   title = NULL,
   subtitle = NULL
 )
 }
 \arguments{
-\item{data}{A rank-change table returned by \code{\link[=ggrank_table]{ggrank_table()}}.}
+\item{data}{Raw data or a rank-change table returned by \code{\link[=ggrank_table]{ggrank_table()}}.}
 
-\item{top}{Maximum number of categories to display for each transition,
-selected by absolute rank change.}
+\item{category, period, value}{Unquoted columns used with raw \code{data}.}
+
+\item{rank, label, group}{Optional unquoted columns used with raw \code{data}.}
+
+\item{periods}{Optional vector selecting and ordering two to four periods.}
+
+\item{top}{Maximum categories displayed per comparison, selected by
+\code{abs(rank_change)}. This is not \code{top} risers plus \code{top} fallers.}
+
+\item{top_n}{Top-rank boundary used to classify entrants and exits with raw
+data. It does not control the number of bars; \code{top} does.}
+
+\item{direction, ties, check_rank}{Ranking options passed to \code{\link[=ggrank_table]{ggrank_table()}}.}
+
+\item{comparison}{Display the latest consecutive comparison (default) or
+all comparisons. Ignored when \code{from} and \code{to} are supplied.}
+
+\item{from, to}{Optional explicit comparison. Both must be supplied and the
+pair must already exist in the rank-change table.}
+
+\item{show_stable}{Include unchanged categories. The default excludes them.}
+
+\item{change_label}{Show signed change (\code{"change"}), detailed ranks such as
+\code{"7 -> 3 (+4)"} (\code{"ranks"}), or no bar-end label (\code{"none"}).}
+
+\item{label_wrap}{Approximate characters per category-label line.}
 
 \item{palette}{Named colours for \code{riser}, \code{faller}, and \code{stable}.}
 
+\item{legend_title}{Optional legend title.}
+
+\item{legend_labels}{Optional named labels for displayed movements.}
+
+\item{show_legend}{Show the movement legend.}
+
 \item{base_size}{Base text size.}
 
-\item{title, subtitle}{Optional plot title and subtitle.}
+\item{title, subtitle}{Optional text overriding informative defaults. Use
+\code{subtitle = ""} to suppress the default subtitle.}
 }
 \value{
-A \code{ggplot} object.
+A \code{ggplot} object whose data retain the underlying table \code{status}.
 }
 \description{
-Turns the output of \code{\link[=ggrank_table]{ggrank_table()}} into a focused diverging bar chart.
-Positive values indicate a rise in rank and negative values indicate a fall.
+Creates a diverging bar chart answering "Who moved the most?" Positive
+values rose towards rank one; negative values fell away from rank one. Raw
+data are processed by \code{\link[=ggrank_table]{ggrank_table()}}, preserving one ranking engine.
 }
 \examples{
+ggrank_change(ggrank_products, product, year, sales, top = 5)
+
 changes <- ggrank_table(
   ggrank_products, product, year, sales,
-  periods = c(2022, 2024), top_n = 5
+  top_n = 5, show_transitions = "all"
 )
-ggrank_change(changes, top = 5)
+ggrank_change(changes, top = 5, comparison = "all")
 }

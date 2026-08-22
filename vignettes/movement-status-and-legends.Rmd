@@ -1,0 +1,165 @@
+---
+title: "Rank changes, movement status, and legends"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Rank changes, movement status, and legends}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.width = 9, fig.height = 6)
+```
+
+`ggrank` has two primary visual questions:
+
+- `ggrank()` asks **How did the ranking evolve?**
+- `ggrank_change()` asks **Who moved the most?**
+
+Both use the same ranks. The change chart is not a second ranking algorithm.
+
+## How rank change is calculated
+
+For each adjacent comparison:
+
+```text
+rank_change = rank_from - rank_to
+```
+
+Rank 7 to rank 3 is `+4`: the category rose four positions. Rank 2 to rank 5
+is `-3`: it fell three positions. Rank 3 to rank 3 is zero. Competition ties
+remain statistical ties; `display_position` only prevents tied categories from
+overlapping in `ggrank()`.
+
+```{r}
+library(ggrank)
+
+changes <- ggrank_table(
+  ggrank_products, product, year, sales,
+  top_n = 5,
+  show_transitions = "all"
+)
+
+changes[c("category", "from", "to", "rank_from", "rank_to",
+          "rank_change", "status")]
+```
+
+## What each status means
+
+`ggrank_table()` preserves boundary and data-availability information:
+
+| Status | Meaning |
+|---|---|
+| `riser` | Rank improved and the category did not cross into the selected top N. |
+| `faller` | Rank worsened and the category did not cross out of the selected top N. |
+| `stable` | Statistical rank did not change. |
+| `entrant` | Moved from outside the top-N boundary to inside it. |
+| `exit` | Moved from inside the top-N boundary to outside it. |
+| `new` | No earlier-period rank is available. |
+| `absent` | No later-period rank is available. |
+| `missing` | A non-finite value was supplied for either side. |
+
+The `ggrank_change()` colour is intentionally simpler. It uses the sign of
+`rank_change`: an entrant moving 6 to 4 is shown as a riser; an exit moving 3
+to 7 is shown as a faller. The original `status` remains in the plot data.
+
+## Latest, all, and explicit comparisons
+
+The default focuses on the latest consecutive comparison and removes stable
+categories:
+
+```{r}
+ggrank_change(changes, top = 5)
+```
+
+`top = 5` means the five largest absolute rank changes in the selected
+comparison—not five risers plus five fallers.
+
+```{r}
+ggrank_change(changes, top = 5, comparison = "all")
+```
+
+Select a comparison already represented in the table with `from` and `to`:
+
+```{r}
+ggrank_change(changes, from = 2022, to = 2023, top = 5)
+```
+
+Stable categories are optional:
+
+```{r}
+ggrank_change(changes, top = 8, show_stable = TRUE)
+```
+
+## Detailed labels and long names
+
+```{r}
+ggrank_change(
+  changes,
+  top = 5,
+  change_label = "ranks",
+  label_wrap = 24
+)
+```
+
+Use `change_label = "change"` for `+4` and `-3`, `"ranks"` for
+`7 → 3 (+4)`, or `"none"` for no bar-end annotation.
+
+## Customise movement colours and legend text
+
+```{r}
+movement_colours <- c(
+  riser = "#0072B2",
+  faller = "#D55E00",
+  stable = "#667085"
+)
+
+movement_labels <- c(
+  riser = "Moved towards rank 1",
+  faller = "Moved away from rank 1",
+  stable = "No rank change"
+)
+
+ggrank_change(
+  changes,
+  top = 5,
+  palette = movement_colours,
+  legend_title = "Movement",
+  legend_labels = movement_labels
+)
+```
+
+Set `show_legend = FALSE` when direction, labels, and explanatory text make the
+legend unnecessary. Because the result is a ggplot, standard scale and theme
+functions remain available for further refinement.
+
+## Customise group legends in `ggrank()`
+
+When `group` is supplied, `colour_by = "auto"` uses its values. Palette and
+legend-label names must match those values exactly.
+
+```{r}
+cause_colours <- c(
+  "Communicable" = "#009E73",
+  "Injuries" = "#0072B2",
+  "Non-communicable" = "#D55E00"
+)
+
+cause_labels <- c(
+  "Communicable" = "Communicable diseases",
+  "Injuries" = "Injuries",
+  "Non-communicable" = "Non-communicable diseases"
+)
+
+ggrank(
+  ggrank_causes, cause, year, rate,
+  rank = rank, label = display_value, group = cause_group,
+  periods = c(1990, 2021), top_n = 10,
+  palette = cause_colours,
+  legend_title = "Cause group",
+  legend_labels = cause_labels
+)
+```
+
+To use movement rather than group colours, choose
+`colour_by = "movement"`. To hide the legend, use `show_legend = FALSE`.

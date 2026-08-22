@@ -52,6 +52,14 @@ ui <- fluidPage(
                   choices = c("Competition (1, 2, 2, 4)" = "min",
                               "Dense (1, 2, 2, 3)" = "dense",
                               "Alphabetical tie-break" = "first")),
+      selectInput("change_comparison", "Change-chart comparisons",
+                  choices = c("Latest comparison" = "latest",
+                              "All comparisons" = "all")),
+      selectInput("change_label", "Change-chart labels",
+                  choices = c("Signed change (+4)" = "change",
+                              "Ranks and change (7 → 3, +4)" = "ranks",
+                              "No bar labels" = "none")),
+      checkboxInput("show_stable", "Include unchanged ranks", FALSE),
       actionButton("draw", "Update outputs", class = "btn-primary"),
       br(), br(),
       downloadButton("download_plot", "Download current plot")
@@ -146,7 +154,8 @@ server <- function(input, output, session) {
       data, !!category, !!period, !!value,
       rank = !!rank, label = !!label, group = !!group,
       periods = input$periods, top_n = as.integer(input$top_n),
-      direction = input$direction, ties = input$ties
+      direction = input$direction, ties = input$ties,
+      show_transitions = "all"
     ))
     list(
       ranked = rlang::inject(ggrank_data(
@@ -165,7 +174,10 @@ server <- function(input, output, session) {
       )),
       change_plot = ggrank_change(
         table, top = as.integer(input$top_n),
-        palette = movement_palette, title = "Largest rank changes"
+        comparison = input$change_comparison,
+        show_stable = input$show_stable,
+        change_label = input$change_label,
+        palette = movement_palette
       )
     )
   }, ignoreInit = FALSE)
@@ -196,12 +208,17 @@ server <- function(input, output, session) {
       paste0('  direction = "', input$direction, '",'),
       paste0('  ties = "', input$ties, '"')
     )
+    table_mapping <- append(mapping, '  show_transitions = "all",',
+                            after = length(mapping) - 1L)
     paste(c(
       "library(ggrank)", "", data_line, "",
-      "changes <- ggrank_table(", "  data = data,", mapping, ")", "",
+      "changes <- ggrank_table(", "  data = data,", table_mapping, ")", "",
       "rank_plot <- ggrank(", "  data = data,", mapping, ")", "",
-      paste0("change_plot <- ggrank_change(changes, top = ",
-             as.integer(input$top_n), ")"), "",
+      "change_plot <- ggrank_change(", "  data = changes,",
+      paste0("  top = ", as.integer(input$top_n), ","),
+      paste0('  comparison = "', input$change_comparison, '",'),
+      paste0("  show_stable = ", if (isTRUE(input$show_stable)) "TRUE" else "FALSE", ","),
+      paste0('  change_label = "', input$change_label, '"'), ")", "",
       "rank_plot", "change_plot", "changes"
     ), collapse = "\n")
   }, ignoreInit = FALSE)

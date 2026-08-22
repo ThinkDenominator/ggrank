@@ -7,6 +7,10 @@
 #' @param colour_by Colour categories by `"group"`, `"movement"`, or `"none"`.
 #'   The default `"auto"` uses groups when supplied and movement otherwise.
 #' @param palette Optional named colour vector.
+#' @param legend_title Optional legend title.
+#' @param legend_labels Optional named labels corresponding to every displayed
+#'   group or movement value.
+#' @param show_legend Show the colour legend.
 #' @param category_header,value_header Headers shown over the two box columns.
 #' @param label_wrap Approximate number of characters per category-label line.
 #' @param category_width,value_width Relative widths of the category and value
@@ -16,6 +20,13 @@
 #' @param title,subtitle Optional plot title and subtitle.
 #'
 #' @return A `ggplot` object.
+#'
+#' @details
+#' With `colour_by = "auto"`, supplying `group` uses group colours; otherwise
+#' movement colours are used. Movement classification prioritises entry to and
+#' exit from the selected top-N boundary, followed by positive (`riser`),
+#' negative (`faller`), or zero (`stable`) rank change. Palette and legend-label
+#' names must match the displayed group or movement values exactly.
 #' @export
 #' @examples
 #' ggrank(ggrank_causes, cause, year, rate,
@@ -28,7 +39,8 @@ ggrank <- function(data, category, period, value, rank = NULL, label = NULL,
                    ties = c("min", "dense", "first"),
                    show_transitions = c("boundary", "top_only", "all"),
                    colour_by = c("auto", "group", "movement", "none"),
-                   palette = NULL, category_header = "Category",
+                   palette = NULL, legend_title = NULL, legend_labels = NULL,
+                   show_legend = TRUE, category_header = "Category",
                    value_header = "Value", label_wrap = 28,
                    category_width = 2.4, value_width = 1.55,
                    state_gap = 1.15, base_size = 11,
@@ -71,6 +83,22 @@ ggrank <- function(data, category, period, value, rank = NULL, label = NULL,
     names(palette) <- levels_colour
   }
   if (any(!levels_colour %in% names(palette))) stop("`palette` must supply a colour for every displayed group/status.", call. = FALSE)
+  if (!is.logical(show_legend) || length(show_legend) != 1L || is.na(show_legend)) {
+    stop("`show_legend` must be TRUE or FALSE.", call. = FALSE)
+  }
+  if (is.null(legend_labels)) {
+    movement_labels <- c(stable = "Stable", riser = "Riser", faller = "Faller",
+                         entrant = "Entrant", exit = "Exit", new = "New",
+                         Category = "Category", Other = "Other")
+    legend_labels <- if (all(levels_colour %in% names(movement_labels))) {
+      movement_labels
+    } else {
+      stats::setNames(levels_colour, levels_colour)
+    }
+  } else if (is.null(names(legend_labels)) || any(!levels_colour %in% names(legend_labels))) {
+    stop("`legend_labels` must be named for every displayed group/status: ",
+         paste(levels_colour, collapse = ", "), ".", call. = FALSE)
+  }
 
   layout_values <- c(category_width = category_width, value_width = value_width,
                      state_gap = state_gap)
@@ -125,10 +153,15 @@ ggrank <- function(data, category, period, value, rank = NULL, label = NULL,
     ggplot2::geom_text(data = headers, ggplot2::aes(x = x, y = 0.8, label = .period_label), fontface = "bold", size = base_size / 2.6) +
     ggplot2::geom_text(data = headers, ggplot2::aes(x = category_left, y = 0.15, label = category_header), hjust = 0, fontface = "bold", size = base_size / 3.2) +
     ggplot2::geom_text(data = headers, ggplot2::aes(x = value_x, y = 0.15, label = value_header), fontface = "bold", size = base_size / 3.2) +
-    ggplot2::scale_color_manual(values = palette, name = NULL) +
+    ggplot2::scale_color_manual(
+      values = palette, breaks = levels_colour,
+      labels = unname(legend_labels[levels_colour]), name = legend_title,
+      guide = if (show_legend) "legend" else "none"
+    ) +
     ggplot2::scale_fill_manual(values = palette, guide = "none") +
     ggplot2::coord_cartesian(clip = "off") +
     ggplot2::labs(title = title, subtitle = subtitle) +
-    theme_ggrank(base_size = base_size)
+    theme_ggrank(base_size = base_size) +
+    ggplot2::theme(legend.position = if (show_legend) "bottom" else "none")
   p
 }

@@ -32,25 +32,31 @@ ggrank(
 )
 ```
 
-The default boundary view retains categories that enter or leave the selected
-top ranks, so important transitions are not silently discarded. The result is
-an ordinary ggplot object and can be customised with `labs()`, themes, and
-scales.
+## Two complementary views
+
+`ggrank()` answers **How did the ranking evolve?** It shows the complete rank
+structure, values, trajectories, risers, fallers, entrants, and exits. The
+default boundary view retains categories that enter or leave the selected top
+ranks, so important transitions are not silently discarded.
 
 Use `ggrank_table()` when you need the readable analytical result behind a
 figure—for example, exact before/after ranks, value changes, entrants, and
 exits.
 
-Use `ggrank_change()` to visualise the largest movements in that table:
+`ggrank_change()` answers **Who moved the most?** It highlights the largest
+increases and decreases in rank. It accepts raw data directly:
 
 ```r
-changes <- ggrank_table(
-  ggrank_products, product, year, sales,
-  periods = c(2022, 2024), top_n = 5
-)
-
-ggrank_change(changes, top = 5)
+ggrank_change(ggrank_products, product, year, sales, top = 5)
 ```
+
+By default this displays the latest comparison, excludes unchanged categories,
+and selects the largest absolute changes. Use `comparison = "all"` for every
+adjacent transition. Both functions return ordinary ggplot objects.
+
+See the [movement, status, and legend guide](https://thinkdenominator.github.io/ggrank/articles/movement-status-and-legends.html)
+for status definitions, detailed rank labels, colours, legend labels, and
+comparison selection.
 
 For a point-and-click workflow, launch the local Shiny interface:
 

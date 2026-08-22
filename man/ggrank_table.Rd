@@ -66,6 +66,14 @@ category between two adjacent selected states. A two-state comparison has
 one row per category; three or four states produce successive transition
 rows such as 1990 to 2010 and 2010 to 2021.
 }
+\details{
+Rank change is calculated as \code{rank_from - rank_to}: positive values rose
+towards rank one, negative values fell, and zero is stable. \code{status} is
+\code{"entrant"} when a category crosses from outside to inside \code{top_n}, and
+\code{"exit"} for the reverse. These boundary statuses take precedence over
+\code{"riser"} and \code{"faller"}. \code{"new"} and \code{"absent"} indicate that a category
+exists on only one side; \code{"missing"} identifies a supplied non-finite value.
+}
 \examples{
 ggrank_table(
   ggrank_products, product, year, sales,

@@ -1,6 +1,7 @@
 utils::globalVariables(c(
-  ".absolute_change", ".category", ".colour", ".period", ".period_index",
-  ".period_label", ".transition",
+  ".absolute_change", ".category", ".category_label", ".change_label",
+  ".colour", ".period", ".period_index", ".period_label", ".row",
+  ".transition",
   ".value", "category_left", "category_left_next", "category_right",
   "category", "category_text", "category_x", "change_label", "from", "label_from",
   "label_to", "missing_from", "missing_to", "rank", "rank_change",

@@ -19,6 +19,9 @@ ggrank(
   show_transitions = c("boundary", "top_only", "all"),
   colour_by = c("auto", "group", "movement", "none"),
   palette = NULL,
+  legend_title = NULL,
+  legend_labels = NULL,
+  show_legend = TRUE,
   category_header = "Category",
   value_header = "Value",
   label_wrap = 28,
@@ -65,6 +68,13 @@ The default \code{"auto"} uses groups when supplied and movement otherwise.}
 
 \item{palette}{Optional named colour vector.}
 
+\item{legend_title}{Optional legend title.}
+
+\item{legend_labels}{Optional named labels corresponding to every displayed
+group or movement value.}
+
+\item{show_legend}{Show the colour legend.}
+
 \item{category_header, value_header}{Headers shown over the two box columns.}
 
 \item{label_wrap}{Approximate number of characters per category-label line.}
@@ -89,6 +99,13 @@ A \code{ggplot} object.
 \description{
 Creates a \code{ggplot2} chart that combines ranked tables with connecting lines.
 Categories entering or exiting \code{top_n} remain visible outside the boundary.
+}
+\details{
+With \code{colour_by = "auto"}, supplying \code{group} uses group colours; otherwise
+movement colours are used. Movement classification prioritises entry to and
+exit from the selected top-N boundary, followed by positive (\code{riser}),
+negative (\code{faller}), or zero (\code{stable}) rank change. Palette and legend-label
+names must match the displayed group or movement values exactly.
 }
 \examples{
 ggrank(ggrank_causes, cause, year, rate,
