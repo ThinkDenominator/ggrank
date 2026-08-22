@@ -108,7 +108,10 @@ With \code{colour_by = "auto"}, supplying \code{group} uses group colours; other
 movement colours are used. Movement classification prioritises entry to and
 exit from the selected top-N boundary, followed by positive (\code{riser}),
 negative (\code{faller}), or zero (\code{stable}) rank change. Palette and legend-label
-names must match the displayed group or movement values exactly.
+names must match the displayed group or movement values exactly. For charts
+with three or four periods, movement colour summarises the net change between
+the first and last displayed period; use \code{\link[=ggrank_change]{ggrank_change()}} to inspect each
+adjacent transition.
 }
 \examples{
 ggrank(ggrank_causes, cause, year, rate,

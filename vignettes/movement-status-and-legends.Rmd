@@ -163,3 +163,9 @@ ggrank(
 
 To use movement rather than group colours, choose
 `colour_by = "movement"`. To hide the legend, use `show_legend = FALSE`.
+
+For a chart containing three or four periods, movement colour in `ggrank()` is
+a summary of the net movement between the first and last displayed period. A
+category can therefore fall and later recover while finishing with a stable net
+rank. Use `ggrank_change(comparison = "all")` when the individual adjacent
+changes are important.

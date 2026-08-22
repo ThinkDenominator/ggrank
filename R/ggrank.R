@@ -26,7 +26,10 @@
 #' movement colours are used. Movement classification prioritises entry to and
 #' exit from the selected top-N boundary, followed by positive (`riser`),
 #' negative (`faller`), or zero (`stable`) rank change. Palette and legend-label
-#' names must match the displayed group or movement values exactly.
+#' names must match the displayed group or movement values exactly. For charts
+#' with three or four periods, movement colour summarises the net change between
+#' the first and last displayed period; use [ggrank_change()] to inspect each
+#' adjacent transition.
 #' @export
 #' @examples
 #' ggrank(ggrank_causes, cause, year, rate,
@@ -104,8 +107,15 @@ ggrank <- function(data, category, period, value = NULL, rank = NULL, label = NU
 
   layout_values <- c(category_width = category_width, value_width = value_width,
                      state_gap = state_gap)
-  if (any(!is.finite(layout_values)) || any(layout_values <= 0)) {
+  if (any(lengths(list(category_width, value_width, state_gap)) != 1L) ||
+      any(!is.finite(layout_values)) || any(layout_values <= 0)) {
     stop("`category_width`, `value_width`, and `state_gap` must be positive numbers.", call. = FALSE)
+  }
+  if (length(label_wrap) != 1L || is.na(label_wrap) || !is.finite(label_wrap) || label_wrap < 1) {
+    stop("`label_wrap` must be one positive number.", call. = FALSE)
+  }
+  if (length(base_size) != 1L || is.na(base_size) || !is.finite(base_size) || base_size <= 0) {
+    stop("`base_size` must be one positive number.", call. = FALSE)
   }
 
   inner_gap <- 0.08

@@ -97,7 +97,10 @@ ui <- fluidPage(
       ),
       actionButton("draw", "Create charts", class = "btn-primary"),
       br(), br(),
-      downloadButton("download_plot", "Download current plot")
+      conditionalPanel(
+        "input.view == 'Rank chart' || input.view == 'Change chart'",
+        downloadButton("download_plot", "Download current plot")
+      )
     ),
     mainPanel(
       helpText("Rank change is positive when a category rises and negative when it falls."),
@@ -167,7 +170,11 @@ server <- function(input, output, session) {
 
   observeEvent(list(source_data(), input$period), {
     req(input$period, input$period %in% names(source_data()))
-    choices <- unique(as.character(source_data()[[input$period]]))
+    raw_choices <- source_data()[[input$period]]
+    choices <- unique(as.character(raw_choices))
+    if (is.numeric(raw_choices) || inherits(raw_choices, c("Date", "POSIXt"))) {
+      choices <- as.character(sort(unique(raw_choices)))
+    }
     selected <- if (length(choices) > 1L) choices[c(1L, length(choices))] else choices
     updateCheckboxGroupInput(session, "periods", choices = choices,
                              selected = selected)
@@ -290,13 +297,17 @@ server <- function(input, output, session) {
                                     bordered = TRUE, spacing = "s")
   output$analysis_code <- renderText(analysis_code())
   output$download_plot <- downloadHandler(
-    filename = function() paste0("ggrank-", input$view, ".png"),
+    filename = function() {
+      view <- if (input$view %in% c("Rank chart", "Change chart")) input$view else "Rank chart"
+      paste0("ggrank-", tolower(gsub(" ", "-", view)), ".png")
+    },
     content = function(file) {
       plot <- if (identical(input$view, "Change chart")) {
         outputs()$change_plot
       } else {
         outputs()$rank_plot
       }
+      if (inherits(plot, "error")) stop(conditionMessage(plot), call. = FALSE)
       ggplot2::ggsave(file, plot, width = 12, height = 7, dpi = 300)
     }
   )

@@ -1,5 +1,12 @@
 # ggrank 0.1.0
 
+* Period selections now reject duplicates and report selected periods left
+  without finite ranking values using clear, user-facing errors.
+* Missing-value status matching now joins on category and period safely.
+* `ggrank_change()` now validates scalar `from` and `to` comparisons.
+* Plot layout arguments receive consistent validation, and GUI plot downloads
+  are available only while viewing a plot.
+
 * Initial implementation of `ggrank()`, `ggrank_table()`, and
   `theme_ggrank()`.
 * Support for automatic and supplied ranks across two to four states.

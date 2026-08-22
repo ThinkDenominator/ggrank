@@ -83,6 +83,9 @@
 
   available <- unique(out$.period)
   if (is.null(periods)) periods <- available
+  if (anyDuplicated(periods)) {
+    stop("`periods` must contain unique values.", call. = FALSE)
+  }
   if (length(periods) < min_states || length(periods) > max_states) {
     if (is.finite(max_states)) {
       stop("Select between ", min_states, " and ", max_states, " `periods`.", call. = FALSE)
@@ -96,6 +99,16 @@
     warning(sum(invalid_value), " row", if (sum(invalid_value) == 1L) " was" else "s were",
             " excluded because `value` was missing or non-finite.", call. = FALSE)
     out <- out[!invalid_value, , drop = FALSE]
+  }
+  retained_periods <- unique(out$.period)
+  empty_periods <- periods[!periods %in% retained_periods]
+  if (length(empty_periods)) {
+    stop(
+      "No finite ranking values remain for period",
+      if (length(empty_periods) == 1L) " " else "s ",
+      paste(empty_periods, collapse = ", "), ".",
+      call. = FALSE
+    )
   }
   out$.period_index <- match(out$.period, periods)
   out$.period_label <- as.character(out$.period)
@@ -268,9 +281,10 @@ ggrank_table <- function(data, category, period, value = NULL, rank = NULL,
       period = as.character(dplyr::pull(data, !!period_q)),
       value = dplyr::pull(data, !!value_q), stringsAsFactors = FALSE
     )
-    missing_keys <- paste(raw_values$category, raw_values$period)[!is.finite(raw_values$value)]
+    missing_values <- raw_values[!is.finite(raw_values$value),
+                                 c("category", "period"), drop = FALSE]
   } else {
-    missing_keys <- character()
+    missing_values <- data.frame(category = character(), period = character())
   }
 
   period_order <- unique(prepared$.period_label[order(prepared$.period_index)])
@@ -289,14 +303,22 @@ ggrank_table <- function(data, category, period, value = NULL, rank = NULL,
                         sort = FALSE)
     transition$from[is.na(transition$from)] <- period_order[i]
     transition$to[is.na(transition$to)] <- period_order[i + 1L]
+    missing_from <- unique(missing_values)
+    names(missing_from)[names(missing_from) == "period"] <- "from"
+    missing_from$missing_from <- rep(TRUE, nrow(missing_from))
+    missing_to <- unique(missing_values)
+    names(missing_to)[names(missing_to) == "period"] <- "to"
+    missing_to$missing_to <- rep(TRUE, nrow(missing_to))
+    transition <- dplyr::left_join(transition, missing_from,
+                                   by = c("category", "from"))
+    transition <- dplyr::left_join(transition, missing_to,
+                                   by = c("category", "to"))
+    transition$missing_from[is.na(transition$missing_from)] <- FALSE
+    transition$missing_to[is.na(transition$missing_to)] <- FALSE
     transition$rank_change <- transition$rank_from - transition$rank_to
     transition$value_change <- transition$value_to - transition$value_from
     transition$group <- ifelse(!is.na(transition$group_to),
                                transition$group_to, transition$group_from)
-    transition$missing_from <- paste(transition$category, transition$from) %in%
-      missing_keys
-    transition$missing_to <- paste(transition$category, transition$to) %in%
-      missing_keys
     transition$status <- ifelse(transition$missing_from |
                                   transition$missing_to, "missing",
       ifelse(is.na(transition$rank_from), "new",

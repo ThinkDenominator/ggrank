@@ -219,10 +219,60 @@ test_that("multi-state tables contain adjacent transitions", {
   expect_equal(unique(paste(z$from, z$to)), c("2022 2023", "2023 2024"))
 })
 
+test_that("period selections are unique and retain usable data", {
+  expect_error(
+    ggrank_table(ggrank::ggrank_products, product, year, sales,
+                 periods = c(2022, 2022)),
+    "unique values"
+  )
+  x <- data.frame(
+    period = rep(c(2024, 2025), each = 2),
+    item = rep(c("A", "B"), 2),
+    value = c(2, 1, NA, Inf)
+  )
+  expect_warning(
+    expect_error(ggrank_table(x, item, period, value),
+                 "No finite ranking values remain for period 2025"),
+    "excluded"
+  )
+})
+
+test_that("missing-value matching uses category and period columns", {
+  x <- data.frame(
+    period = c("C", "B C", "C", "B C"),
+    item = c("A B", "A B", "A", "A"),
+    value = c(NA, 3, 2, 4)
+  )
+  expect_warning(
+    result <- ggrank_table(x, item, period, value,
+                           periods = c("C", "B C"), top_n = 2),
+    "excluded"
+  )
+  expect_true(result$missing_from[result$category == "A B"])
+  expect_false(result$missing_to[result$category == "A"])
+})
+
+test_that("explicit change comparisons must be scalar", {
+  changes <- ggrank_table(ggrank::ggrank_products, product, year, sales,
+                          show_transitions = "all")
+  expect_error(
+    ggrank_change(changes, from = c(2022, 2023), to = c(2023, 2024)),
+    "each be one non-missing value"
+  )
+})
+
 test_that("layout widths must be positive", {
   expect_error(
     ggrank(ggrank::ggrank_products, product, year, sales, value_width = 0),
     "positive numbers"
+  )
+  expect_error(
+    ggrank(ggrank::ggrank_products, product, year, sales, label_wrap = 0),
+    "label_wrap"
+  )
+  expect_error(
+    ggrank(ggrank::ggrank_products, product, year, sales, base_size = NA_real_),
+    "base_size"
   )
 })
 

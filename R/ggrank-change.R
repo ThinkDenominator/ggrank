@@ -114,6 +114,9 @@ ggrank_change <- function(data, category = NULL, period = NULL, value = NULL,
   transition_order <- unique(changes$.transition)
   if (xor(is.null(from), is.null(to))) stop("Supply both `from` and `to`, or neither.", call. = FALSE)
   if (!is.null(from)) {
+    if (length(from) != 1L || length(to) != 1L || is.na(from) || is.na(to)) {
+      stop("`from` and `to` must each be one non-missing value.", call. = FALSE)
+    }
     requested <- paste(as.character(from), as.character(to), sep = " to ")
     if (!requested %in% transition_order) {
       stop("The comparison ", requested, " is not present in `data`. Available comparisons: ",
