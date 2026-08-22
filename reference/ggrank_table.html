@@ -57,7 +57,7 @@ rows such as 1990 to 2010 and 2010 to 2021.</p>
 <span>  <span class="va">data</span>,</span>
 <span>  <span class="va">category</span>,</span>
 <span>  <span class="va">period</span>,</span>
-<span>  <span class="va">value</span>,</span>
+<span>  value <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  rank <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  label <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  group <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -78,9 +78,14 @@ rows such as 1990 to 2010 and 2010 to 2021.</p>
 <dd><p>A data frame with one row per category and period.</p></dd>
 
 
-<dt id="arg-category-period-value">category, period, value<a class="anchor" aria-label="anchor" href="#arg-category-period-value"></a></dt>
-<dd><p>Unquoted columns identifying the category,
-ordered state, and numeric value.</p></dd>
+<dt id="arg-category-period">category, period<a class="anchor" aria-label="anchor" href="#arg-category-period"></a></dt>
+<dd><p>Unquoted columns identifying the category and ordered
+state.</p></dd>
+
+
+<dt id="arg-value">value<a class="anchor" aria-label="anchor" href="#arg-value"></a></dt>
+<dd><p>Optional unquoted numeric ranking-value column. It may be
+omitted when an authoritative <code>rank</code> column is supplied.</p></dd>
 
 
 <dt id="arg-rank">rank<a class="anchor" aria-label="anchor" href="#arg-rank"></a></dt>

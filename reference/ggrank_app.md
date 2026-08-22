@@ -3,7 +3,9 @@
 Opens a local Shiny application for creating a rank-transition chart,
 inspecting its comparison table, and visualising its largest rank
 changes. Users can start with the synthetic teaching data or upload a
-CSV file.
+CSV file. The guided workflow supports either numeric values that need
+ranking or an existing rank column with no marks, rates, scores, or
+values.
 
 ## Usage
 

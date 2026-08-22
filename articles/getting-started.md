@@ -91,6 +91,42 @@ ggrank(
 
 ![](getting-started_files/figure-html/unnamed-chunk-3-1.png)
 
+## Use existing ranks without marks or values
+
+If a school, institution, or report already supplies authoritative
+ranks, no mark, rate, score, or other value column is needed.
+
+``` r
+
+student_ranks <- data.frame(
+  year = rep(c(2024, 2025), each = 4),
+  student = rep(c("Asha", "Ben", "Chen", "Dina"), 2),
+  institution = "North School",
+  rank = c(1, 2, 3, 4, 3, 1, 2, 4)
+)
+
+ggrank(
+  student_ranks,
+  category = student,
+  period = year,
+  rank = rank,
+  group = institution,
+  top_n = 4
+)
+```
+
+![](getting-started_files/figure-html/unnamed-chunk-4-1.png)
+
+The rank-only layout omits the value boxes. The same input works with
+[`ggrank_data()`](https://thinkdenominator.github.io/ggrank/reference/ggrank_data.md),
+[`ggrank_table()`](https://thinkdenominator.github.io/ggrank/reference/ggrank_table.md),
+and
+[`ggrank_change()`](https://thinkdenominator.github.io/ggrank/reference/ggrank_change.md).
+Ranks must be finite, positive whole numbers. `group` changes colours;
+it does not calculate ranks separately for each group. Separate
+institutional ranking lists should be analysed separately or represented
+by distinct period/list identifiers.
+
 ## Group colours and prepared labels
 
 Use `group` for meaningful category colours and `label` when values
@@ -113,7 +149,7 @@ ggrank(
 )
 ```
 
-![](getting-started_files/figure-html/unnamed-chunk-4-1.png)
+![](getting-started_files/figure-html/unnamed-chunk-5-1.png)
 
 The returned value is a regular ggplot object, so titles, captions, and
 other ggplot2 layers can be added normally.
@@ -160,7 +196,7 @@ values moved towards rank one; negative values moved away from rank one.
 ggrank_change(changes, top = 5)
 ```
 
-![](getting-started_files/figure-html/unnamed-chunk-6-1.png)
+![](getting-started_files/figure-html/unnamed-chunk-7-1.png)
 
 ## Use the graphical interface
 

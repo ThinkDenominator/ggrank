@@ -97,6 +97,35 @@ boundary are retained. `value` controls ranking, while an optional
 the top N: supply all relevant categories so entrants and exits can be
 identified.
 
+## Already have ranks but no values?
+
+A value, mark, score, or rate is not required when authoritative ranks
+already exist. Supply `category`, `period`, and `rank`:
+
+``` r
+
+student_ranks <- data.frame(
+  year = rep(c(2024, 2025), each = 4),
+  student = rep(c("Asha", "Ben", "Chen", "Dina"), 2),
+  rank = c(1, 2, 3, 4, 3, 1, 2, 4)
+)
+
+ggrank(
+  student_ranks,
+  category = student,
+  period = year,
+  rank = rank,
+  top_n = 4
+)
+```
+
+The chart uses a compact category-and-rank layout and does not draw an
+empty value column. Ranks must be positive whole numbers. If several
+institutions have separate rankings in the same period, analyse each
+institution separately or create a distinct period/list identifier;
+`group` controls colour but does not create independent ranking
+populations.
+
 ## Exporting results
 
 [`ggrank()`](https://thinkdenominator.github.io/ggrank/reference/ggrank.md)

@@ -104,10 +104,30 @@
 <p>Equal values share a competition rank by default (<code>1, 2, 3, 3, 5</code>). They are placed on separate rows and all categories tied at the <code>top_n</code> boundary are retained. <code>value</code> controls ranking, while an optional <code>label</code> controls only the printed formatting. Do not pre-filter data to the top N: supply all relevant categories so entrants and exits can be identified.</p>
 </div>
 <div class="section level2">
+<h2 id="already-have-ranks-but-no-values">Already have ranks but no values?<a class="anchor" aria-label="anchor" href="#already-have-ranks-but-no-values"></a>
+</h2>
+<p>A value, mark, score, or rate is not required when authoritative ranks already exist. Supply <code>category</code>, <code>period</code>, and <code>rank</code>:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">student_ranks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>  year <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2024</span>, <span class="fl">2025</span><span class="op">)</span>, each <span class="op">=</span> <span class="fl">4</span><span class="op">)</span>,</span>
+<span>  student <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Asha"</span>, <span class="st">"Ben"</span>, <span class="st">"Chen"</span>, <span class="st">"Dina"</span><span class="op">)</span>, <span class="fl">2</span><span class="op">)</span>,</span>
+<span>  rank <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span>, <span class="fl">3</span>, <span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">4</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="reference/ggrank.html">ggrank</a></span><span class="op">(</span></span>
+<span>  <span class="va">student_ranks</span>,</span>
+<span>  category <span class="op">=</span> <span class="va">student</span>,</span>
+<span>  period <span class="op">=</span> <span class="va">year</span>,</span>
+<span>  rank <span class="op">=</span> <span class="va">rank</span>,</span>
+<span>  top_n <span class="op">=</span> <span class="fl">4</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>The chart uses a compact category-and-rank layout and does not draw an empty value column. Ranks must be positive whole numbers. If several institutions have separate rankings in the same period, analyse each institution separately or create a distinct period/list identifier; <code>group</code> controls colour but does not create independent ranking populations.</p>
+</div>
+<div class="section level2">
 <h2 id="exporting-results">Exporting results<a class="anchor" aria-label="anchor" href="#exporting-results"></a>
 </h2>
 <p><code><a href="reference/ggrank.html">ggrank()</a></code> returns an ordinary ggplot object, so use standard R tools:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/ggrank.html">ggrank</a></span><span class="op">(</span><span class="va">ggrank_products</span>, <span class="va">product</span>, <span class="va">year</span>, <span class="va">sales</span>, top_n <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsave.html" class="external-link">ggsave</a></span><span class="op">(</span></span>

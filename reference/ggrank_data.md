@@ -13,7 +13,7 @@ ggrank_data(
   data,
   category,
   period,
-  value,
+  value = NULL,
   rank = NULL,
   label = NULL,
   group = NULL,
@@ -30,10 +30,14 @@ ggrank_data(
 
   A data frame with one row per category and period.
 
-- category, period, value:
+- category, period:
 
-  Unquoted columns identifying the category, state, and numeric ranking
-  value.
+  Unquoted columns identifying the category and state.
+
+- value:
+
+  Optional unquoted numeric ranking-value column. It may be omitted when
+  an authoritative `rank` column is supplied.
 
 - rank:
 
@@ -128,4 +132,18 @@ ggrank_data(tied, organism, year, rate)
 #> 6        B   2025     4    2                2     4  <NA>
 #> 7        C   2025     4    2                3     4  <NA>
 #> 8        D   2025     2    4                4     2  <NA>
+
+ranks_only <- data.frame(
+  year = rep(c(2024, 2025), each = 3),
+  student = rep(c("A", "B", "C"), 2),
+  rank = c(1, 2, 3, 2, 1, 3)
+)
+ggrank_data(ranks_only, student, year, rank = rank)
+#>   category period value rank display_position label group
+#> 1        A   2024    NA    1                1        <NA>
+#> 2        B   2024    NA    2                2        <NA>
+#> 3        C   2024    NA    3                3        <NA>
+#> 4        B   2025    NA    1                1        <NA>
+#> 5        A   2025    NA    2                2        <NA>
+#> 6        C   2025    NA    3                3        <NA>
 ```

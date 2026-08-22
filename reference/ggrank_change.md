@@ -46,9 +46,14 @@ ggrank_change(
   Raw data or a rank-change table returned by
   [`ggrank_table()`](https://thinkdenominator.github.io/ggrank/reference/ggrank_table.md).
 
-- category, period, value:
+- category, period:
 
   Unquoted columns used with raw `data`.
+
+- value:
+
+  Optional numeric value column. It may be omitted when `rank` is
+  supplied.
 
 - rank, label, group:
 

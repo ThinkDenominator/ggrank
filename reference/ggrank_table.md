@@ -14,7 +14,7 @@ ggrank_table(
   data,
   category,
   period,
-  value,
+  value = NULL,
   rank = NULL,
   label = NULL,
   group = NULL,
@@ -33,10 +33,14 @@ ggrank_table(
 
   A data frame with one row per category and period.
 
-- category, period, value:
+- category, period:
 
-  Unquoted columns identifying the category, ordered state, and numeric
-  value.
+  Unquoted columns identifying the category and ordered state.
+
+- value:
+
+  Optional unquoted numeric ranking-value column. It may be omitted when
+  an authoritative `rank` column is supplied.
 
 - rank:
 
