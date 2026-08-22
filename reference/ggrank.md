@@ -159,7 +159,11 @@ otherwise movement colours are used. Movement classification prioritises
 entry to and exit from the selected top-N boundary, followed by positive
 (`riser`), negative (`faller`), or zero (`stable`) rank change. Palette
 and legend-label names must match the displayed group or movement values
-exactly.
+exactly. For charts with three or four periods, movement colour
+summarises the net change between the first and last displayed period;
+use
+[`ggrank_change()`](https://thinkdenominator.github.io/ggrank/reference/ggrank_change.md)
+to inspect each adjacent transition.
 
 ## Examples
 

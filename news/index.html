@@ -39,20 +39,24 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.0" id="ggrank-010">ggrank 0.1.0<a class="anchor" aria-label="anchor" href="#ggrank-010"></a></h2>
-<ul><li>Initial implementation of <code><a href="../reference/ggrank.html">ggrank()</a></code>, <code><a href="../reference/ggrank_table.html">ggrank_table()</a></code>, and <code><a href="../reference/theme_ggrank.html">theme_ggrank()</a></code>.</li>
-<li>Support for automatic and supplied ranks across two to four states.</li>
-<li>Automatic retention of categories entering and exiting the selected top N.</li>
-<li>Added synthetic causes and product teaching datasets.</li>
-<li>Added <code><a href="../reference/ggrank_data.html">ggrank_data()</a></code> for inspecting automatically calculated ranks.</li>
-<li>Equal values now share competition ranks by default; tied categories retain separate display positions and all ties at the top-N boundary are included.</li>
-<li>Ranking uses exact numeric values independently of printed labels, and missing or non-finite ranking values produce an informative warning.</li>
-<li>Supplied ranks can now be checked against value ties and ranking direction; potential disagreements warn because external ranking rules may be valid.</li>
-<li>Added <code><a href="../reference/ggrank_change.html">ggrank_change()</a></code> to visualise the largest rises and falls from a <code><a href="../reference/ggrank_table.html">ggrank_table()</a></code> result.</li>
-<li>Added <code><a href="../reference/ggrank_app.html">ggrank_app()</a></code> as an optional local Shiny interface for the existing ranking, table, and visualisation workflow.</li>
-<li>Finalised <code><a href="../reference/ggrank_change.html">ggrank_change()</a></code> as a latest-comparison diverging chart with raw data support, explicit or all-comparison selection, stable-category control, detailed rank labels, within-comparison ordering, and wrapped labels.</li>
-<li>Added palette, legend-title, legend-label, and legend-visibility controls to both primary visualisations.</li>
-<li>Added rank-only workflows across the package and GUI. Authoritative ranks can now be plotted without inventing a value, mark, rate, or score column.</li>
-<li>Reworked the GUI as a four-step guided workflow with basic/advanced settings, embedded data examples, and independent error handling for the change chart.</li>
+<ul><li><p>Period selections now reject duplicates and report selected periods left without finite ranking values using clear, user-facing errors.</p></li>
+<li><p>Missing-value status matching now joins on category and period safely.</p></li>
+<li><p><code><a href="../reference/ggrank_change.html">ggrank_change()</a></code> now validates scalar <code>from</code> and <code>to</code> comparisons.</p></li>
+<li><p>Plot layout arguments receive consistent validation, and GUI plot downloads are available only while viewing a plot.</p></li>
+<li><p>Initial implementation of <code><a href="../reference/ggrank.html">ggrank()</a></code>, <code><a href="../reference/ggrank_table.html">ggrank_table()</a></code>, and <code><a href="../reference/theme_ggrank.html">theme_ggrank()</a></code>.</p></li>
+<li><p>Support for automatic and supplied ranks across two to four states.</p></li>
+<li><p>Automatic retention of categories entering and exiting the selected top N.</p></li>
+<li><p>Added synthetic causes and product teaching datasets.</p></li>
+<li><p>Added <code><a href="../reference/ggrank_data.html">ggrank_data()</a></code> for inspecting automatically calculated ranks.</p></li>
+<li><p>Equal values now share competition ranks by default; tied categories retain separate display positions and all ties at the top-N boundary are included.</p></li>
+<li><p>Ranking uses exact numeric values independently of printed labels, and missing or non-finite ranking values produce an informative warning.</p></li>
+<li><p>Supplied ranks can now be checked against value ties and ranking direction; potential disagreements warn because external ranking rules may be valid.</p></li>
+<li><p>Added <code><a href="../reference/ggrank_change.html">ggrank_change()</a></code> to visualise the largest rises and falls from a <code><a href="../reference/ggrank_table.html">ggrank_table()</a></code> result.</p></li>
+<li><p>Added <code><a href="../reference/ggrank_app.html">ggrank_app()</a></code> as an optional local Shiny interface for the existing ranking, table, and visualisation workflow.</p></li>
+<li><p>Finalised <code><a href="../reference/ggrank_change.html">ggrank_change()</a></code> as a latest-comparison diverging chart with raw data support, explicit or all-comparison selection, stable-category control, detailed rank labels, within-comparison ordering, and wrapped labels.</p></li>
+<li><p>Added palette, legend-title, legend-label, and legend-visibility controls to both primary visualisations.</p></li>
+<li><p>Added rank-only workflows across the package and GUI. Authoritative ranks can now be plotted without inventing a value, mark, rate, or score column.</p></li>
+<li><p>Reworked the GUI as a four-step guided workflow with basic/advanced settings, embedded data examples, and independent error handling for the change chart.</p></li>
 </ul></div>
   </main></div>
 

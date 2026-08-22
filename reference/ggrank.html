@@ -199,7 +199,10 @@ authoritative ranks may use external tie-breakers or additional data.</p></dd>
 movement colours are used. Movement classification prioritises entry to and
 exit from the selected top-N boundary, followed by positive (<code>riser</code>),
 negative (<code>faller</code>), or zero (<code>stable</code>) rank change. Palette and legend-label
-names must match the displayed group or movement values exactly.</p>
+names must match the displayed group or movement values exactly. For charts
+with three or four periods, movement colour summarises the net change between
+the first and last displayed period; use <code><a href="ggrank_change.html">ggrank_change()</a></code> to inspect each
+adjacent transition.</p>
     </div>
 
     <div class="section level2">
