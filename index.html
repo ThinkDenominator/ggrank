@@ -36,6 +36,7 @@
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="articles/getting-started.html">Creating your first ggrank plot</a></li>
+    <li><a class="dropdown-item" href="articles/movement-status-and-legends.html">Rank changes, movement status, and legends</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="news/index.html">Changelog</a></li>
@@ -78,16 +79,17 @@
 <span>  top_n <span class="op">=</span> <span class="fl">10</span>,</span>
 <span>  value_header <span class="op">=</span> <span class="st">"Rate (95% interval)"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p>The default boundary view retains categories that enter or leave the selected top ranks, so important transitions are not silently discarded. The result is an ordinary ggplot object and can be customised with <code>labs()</code>, themes, and scales.</p>
+</div>
+<div class="section level2">
+<h2 id="two-complementary-views">Two complementary views<a class="anchor" aria-label="anchor" href="#two-complementary-views"></a>
+</h2>
+<p><code><a href="reference/ggrank.html">ggrank()</a></code> answers <strong>How did the ranking evolve?</strong> It shows the complete rank structure, values, trajectories, risers, fallers, entrants, and exits. The default boundary view retains categories that enter or leave the selected top ranks, so important transitions are not silently discarded.</p>
 <p>Use <code><a href="reference/ggrank_table.html">ggrank_table()</a></code> when you need the readable analytical result behind a figure—for example, exact before/after ranks, value changes, entrants, and exits.</p>
-<p>Use <code><a href="reference/ggrank_change.html">ggrank_change()</a></code> to visualise the largest movements in that table:</p>
+<p><code><a href="reference/ggrank_change.html">ggrank_change()</a></code> answers <strong>Who moved the most?</strong> It highlights the largest increases and decreases in rank. It accepts raw data directly:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">changes</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/ggrank_table.html">ggrank_table</a></span><span class="op">(</span></span>
-<span>  <span class="va">ggrank_products</span>, <span class="va">product</span>, <span class="va">year</span>, <span class="va">sales</span>,</span>
-<span>  periods <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2022</span>, <span class="fl">2024</span><span class="op">)</span>, top_n <span class="op">=</span> <span class="fl">5</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="reference/ggrank_change.html">ggrank_change</a></span><span class="op">(</span><span class="va">changes</span>, top <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/ggrank_change.html">ggrank_change</a></span><span class="op">(</span><span class="va">ggrank_products</span>, <span class="va">product</span>, <span class="va">year</span>, <span class="va">sales</span>, top <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></code></pre></div>
+<p>By default this displays the latest comparison, excludes unchanged categories, and selects the largest absolute changes. Use <code>comparison = "all"</code> for every adjacent transition. Both functions return ordinary ggplot objects.</p>
+<p>See the <a href="https://thinkdenominator.github.io/ggrank/articles/movement-status-and-legends.html">movement, status, and legend guide</a> for status definitions, detailed rank labels, colours, legend labels, and comparison selection.</p>
 <p>For a point-and-click workflow, launch the local Shiny interface:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/ggrank_app.html">ggrank_app</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>

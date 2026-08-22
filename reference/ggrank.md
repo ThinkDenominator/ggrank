@@ -22,6 +22,9 @@ ggrank(
   show_transitions = c("boundary", "top_only", "all"),
   colour_by = c("auto", "group", "movement", "none"),
   palette = NULL,
+  legend_title = NULL,
+  legend_labels = NULL,
+  show_legend = TRUE,
   category_header = "Category",
   value_header = "Value",
   label_wrap = 28,
@@ -94,6 +97,19 @@ ggrank(
 
   Optional named colour vector.
 
+- legend_title:
+
+  Optional legend title.
+
+- legend_labels:
+
+  Optional named labels corresponding to every displayed group or
+  movement value.
+
+- show_legend:
+
+  Show the colour legend.
+
 - category_header, value_header:
 
   Headers shown over the two box columns.
@@ -131,6 +147,15 @@ ggrank(
 ## Value
 
 A `ggplot` object.
+
+## Details
+
+With `colour_by = "auto"`, supplying `group` uses group colours;
+otherwise movement colours are used. Movement classification prioritises
+entry to and exit from the selected top-N boundary, followed by positive
+(`riser`), negative (`faller`), or zero (`stable`) rank change. Palette
+and legend-label names must match the displayed group or movement values
+exactly.
 
 ## Examples
 

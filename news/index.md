@@ -31,3 +31,10 @@
   [`ggrank_app()`](https://thinkdenominator.github.io/ggrank/reference/ggrank_app.md)
   as an optional local Shiny interface for the existing ranking, table,
   and visualisation workflow.
+- Finalised
+  [`ggrank_change()`](https://thinkdenominator.github.io/ggrank/reference/ggrank_change.md)
+  as a latest-comparison diverging chart with raw data support, explicit
+  or all-comparison selection, stable-category control, detailed rank
+  labels, within-comparison ordering, and wrapped labels.
+- Added palette, legend-title, legend-label, and legend-visibility
+  controls to both primary visualisations.
