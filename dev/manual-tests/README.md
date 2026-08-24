@@ -21,3 +21,7 @@ legend labels, and legend suppression. It contains no loops.
 
 Use `05-rank-only-workflow.R` to verify student/product/institution rankings
 that contain names and authoritative ranks but no marks, rates, or values.
+
+Use `06-sports-leaderboards.R` to inspect top-5, top-10, top-20, and top-30
+leaderboard layouts using synthetic football and cricket-style data. It also
+demonstrates practical export heights and contains no loops.

@@ -111,6 +111,37 @@ have separate rankings in the same period, analyse each institution separately
 or create a distinct period/list identifier; `group` controls colour but does
 not create independent ranking populations.
 
+## Sports leaderboards and larger rankings
+
+`top_n` is a rank threshold, not a fixed page size. A football table can use
+`top_n = 20`, a ten-team cricket league can use `top_n = 10`, and a larger
+competition can use `top_n = 30`. Boundary ties are retained, so a top-10 chart
+can contain more than ten rows.
+
+```r
+football <- data.frame(
+  season = rep(c("2024", "2025"), each = 20),
+  club = rep(sprintf("Club %02d", 1:20), 2),
+  points = c(91, 86, 82, 78, 74, 70, 66, 63, 60, 57,
+             54, 51, 48, 45, 42, 39, 36, 33, 29, 24,
+             84, 92, 76, 81, 69, 73, 61, 65, 58, 55,
+             52, 49, 46, 43, 40, 37, 34, 31, 27, 22)
+)
+
+league_plot <- ggrank(
+  football, club, season, points,
+  top_n = 20,
+  value_header = "Points",
+  title = "Football league table"
+)
+```
+
+For twenty rows, start with a 10–12 inch-high export; for thirty rows, start
+around 14–16 inches. The appropriate height also depends on label wrapping,
+font size, number of periods, and slide or page dimensions. See the
+[sports leaderboard guide](https://thinkdenominator.github.io/ggrank/articles/sports-leaderboards.html)
+for football-style and cricket-style examples.
+
 ## Exporting results
 
 `ggrank()` returns an ordinary ggplot object, so use standard R tools:
