@@ -13,6 +13,9 @@
 - Plot layout arguments receive consistent validation, and GUI plot
   downloads are available only while viewing a plot.
 
+- Added synthetic football- and cricket-style leaderboard examples,
+  including guidance for exporting rankings containing 20 or 30 rows.
+
 - Initial implementation of
   [`ggrank()`](https://thinkdenominator.github.io/ggrank/reference/ggrank.md),
   [`ggrank_table()`](https://thinkdenominator.github.io/ggrank/reference/ggrank_table.md),

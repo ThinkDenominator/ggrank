@@ -4,7 +4,8 @@ pkgdown_sha: ~
 articles:
   getting-started: getting-started.html
   movement-status-and-legends: movement-status-and-legends.html
-last_built: 2026-08-22T13:29Z
+  sports-leaderboards: sports-leaderboards.html
+last_built: 2026-08-24T19:05Z
 urls:
   reference: https://thinkdenominator.github.io/ggrank/reference
   article: https://thinkdenominator.github.io/ggrank/articles
