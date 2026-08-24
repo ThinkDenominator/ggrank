@@ -94,11 +94,11 @@ IPL-style teaching example therefore uses names and ranks only.
 cricket <- data.frame(
   season = rep(c("2025", "2026"), each = 10),
   team = rep(c(
-    "Bengaluru Blazers", "Chennai Waves", "Delhi Comets", "Gujarat Falcons",
+    "Bengaluru Blazers", "Chennai Super Kings (CSK)", "Delhi Comets", "Gujarat Falcons",
     "Hyderabad Suns", "Jaipur Royals", "Kolkata Knights", "Lucknow Leopards",
     "Mumbai Mariners", "Punjab Panthers"
   ), 2),
-  rank = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+  rank = c(2, 1, 3, 4, 5, 6, 7, 8, 9, 10,
            4, 1, 5, 2, 8, 3, 6, 10, 7, 9)
 )
 
