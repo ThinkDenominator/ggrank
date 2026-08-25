@@ -54,7 +54,7 @@ By default this displays the latest comparison, excludes unchanged categories,
 and selects the largest absolute changes. Use `comparison = "all"` for every
 adjacent transition. Both functions return ordinary ggplot objects.
 
-See the [movement, status, and legend guide](https://thinkdenominator.github.io/ggrank/articles/movement-status-and-legends.html)
+See the [movement, status, and legend guide](https://ggrank.thinkdenominator.com/articles/movement-status-and-legends.html)
 for status definitions, detailed rank labels, colours, legend labels, and
 comparison selection.
 
@@ -139,7 +139,7 @@ league_plot <- ggrank(
 For twenty rows, start with a 10–12 inch-high export; for thirty rows, start
 around 14–16 inches. The appropriate height also depends on label wrapping,
 font size, number of periods, and slide or page dimensions. See the
-[sports leaderboard guide](https://thinkdenominator.github.io/ggrank/articles/sports-leaderboards.html)
+[sports leaderboard guide](https://ggrank.thinkdenominator.com/articles/sports-leaderboards.html)
 for football-style and cricket-style examples.
 
 ## Exporting results

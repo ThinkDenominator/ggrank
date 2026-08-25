@@ -12,7 +12,7 @@ Description: Creates publication-ready rank transition charts showing how
     categories move between ordered states. Top-ranked categories are displayed
     together with entrants to and exits from the selected top ranks.
 License: MIT + file LICENSE
-URL: https://thinkdenominator.github.io/ggrank/,
+URL: https://ggrank.thinkdenominator.com/,
     https://github.com/ThinkDenominator/ggrank
 BugReports: https://github.com/ThinkDenominator/ggrank/issues
 Encoding: UTF-8
