@@ -37,18 +37,18 @@ ggrank(
 
 ## Two complementary views
 
-[`ggrank()`](https://thinkdenominator.github.io/ggrank/reference/ggrank.md)
+[`ggrank()`](https://ggrank.thinkdenominator.com/reference/ggrank.md)
 answers **How did the ranking evolve?** It shows the complete rank
 structure, values, trajectories, risers, fallers, entrants, and exits.
 The default boundary view retains categories that enter or leave the
 selected top ranks, so important transitions are not silently discarded.
 
 Use
-[`ggrank_table()`](https://thinkdenominator.github.io/ggrank/reference/ggrank_table.md)
+[`ggrank_table()`](https://ggrank.thinkdenominator.com/reference/ggrank_table.md)
 when you need the readable analytical result behind a figure—for
 example, exact before/after ranks, value changes, entrants, and exits.
 
-[`ggrank_change()`](https://thinkdenominator.github.io/ggrank/reference/ggrank_change.md)
+[`ggrank_change()`](https://ggrank.thinkdenominator.com/reference/ggrank_change.md)
 answers **Who moved the most?** It highlights the largest increases and
 decreases in rank. It accepts raw data directly:
 
@@ -63,7 +63,7 @@ categories, and selects the largest absolute changes. Use
 return ordinary ggplot objects.
 
 See the [movement, status, and legend
-guide](https://thinkdenominator.github.io/ggrank/articles/movement-status-and-legends.html)
+guide](https://ggrank.thinkdenominator.com/articles/movement-status-and-legends.html)
 for status definitions, detailed rank labels, colours, legend labels,
 and comparison selection.
 
@@ -82,7 +82,7 @@ charts, and show the rank-change table.
 
 Normally, supply one numeric value for each category and period; you do
 not need to create a rank column.
-[`ggrank()`](https://thinkdenominator.github.io/ggrank/reference/ggrank.md)
+[`ggrank()`](https://ggrank.thinkdenominator.com/reference/ggrank.md)
 ranks the exact values within each period before applying `top_n`.
 
 ``` r
@@ -156,12 +156,12 @@ For twenty rows, start with a 10–12 inch-high export; for thirty rows,
 start around 14–16 inches. The appropriate height also depends on label
 wrapping, font size, number of periods, and slide or page dimensions.
 See the [sports leaderboard
-guide](https://thinkdenominator.github.io/ggrank/articles/sports-leaderboards.html)
+guide](https://ggrank.thinkdenominator.com/articles/sports-leaderboards.html)
 for football-style and cricket-style examples.
 
 ## Exporting results
 
-[`ggrank()`](https://thinkdenominator.github.io/ggrank/reference/ggrank.md)
+[`ggrank()`](https://ggrank.thinkdenominator.com/reference/ggrank.md)
 returns an ordinary ggplot object, so use standard R tools:
 
 ``` r
@@ -185,24 +185,24 @@ write.csv(changes, "rank-changes.csv", row.names = FALSE)
 
 ## Rank and visualise
 
-- [`ggrank_data()`](https://thinkdenominator.github.io/ggrank/reference/ggrank_data.md)
+- [`ggrank_data()`](https://ggrank.thinkdenominator.com/reference/ggrank_data.md)
   : Prepare and inspect ranked data
-- [`ggrank()`](https://thinkdenominator.github.io/ggrank/reference/ggrank.md)
+- [`ggrank()`](https://ggrank.thinkdenominator.com/reference/ggrank.md)
   : Draw a rank-transition chart
-- [`ggrank_table()`](https://thinkdenominator.github.io/ggrank/reference/ggrank_table.md)
+- [`ggrank_table()`](https://ggrank.thinkdenominator.com/reference/ggrank_table.md)
   : Build a readable rank-transition table
-- [`ggrank_change()`](https://thinkdenominator.github.io/ggrank/reference/ggrank_change.md)
+- [`ggrank_change()`](https://ggrank.thinkdenominator.com/reference/ggrank_change.md)
   : Visualise the largest rank changes
-- [`ggrank_app()`](https://thinkdenominator.github.io/ggrank/reference/ggrank_app.md)
+- [`ggrank_app()`](https://ggrank.thinkdenominator.com/reference/ggrank_app.md)
   : Launch the ggrank graphical interface
-- [`theme_ggrank()`](https://thinkdenominator.github.io/ggrank/reference/theme_ggrank.md)
+- [`theme_ggrank()`](https://ggrank.thinkdenominator.com/reference/theme_ggrank.md)
   : A minimal theme for rank-transition charts
 
 ## Synthetic teaching data
 
-- [`ggrank_causes`](https://thinkdenominator.github.io/ggrank/reference/ggrank_causes.md)
+- [`ggrank_causes`](https://ggrank.thinkdenominator.com/reference/ggrank_causes.md)
   : Synthetic GBD-inspired causes
-- [`ggrank_products`](https://thinkdenominator.github.io/ggrank/reference/ggrank_products.md)
+- [`ggrank_products`](https://ggrank.thinkdenominator.com/reference/ggrank_products.md)
   : Synthetic product rankings
 
 # Articles
@@ -210,8 +210,8 @@ write.csv(changes, "rank-changes.csv", row.names = FALSE)
 ### Getting started
 
 - [Creating your first ggrank
-  plot](https://thinkdenominator.github.io/ggrank/articles/getting-started.md):
+  plot](https://ggrank.thinkdenominator.com/articles/getting-started.md):
 - [Sports leaderboards and larger
-  rankings](https://thinkdenominator.github.io/ggrank/articles/sports-leaderboards.md):
+  rankings](https://ggrank.thinkdenominator.com/articles/sports-leaderboards.md):
 - [Rank changes, movement status, and
-  legends](https://thinkdenominator.github.io/ggrank/articles/movement-status-and-legends.md):
+  legends](https://ggrank.thinkdenominator.com/articles/movement-status-and-legends.md):

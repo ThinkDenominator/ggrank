@@ -25,7 +25,7 @@ figure can therefore contain eleven or more rows.
 ## A twenty-club football table
 
 This Premier League-style example supplies points and lets
-[`ggrank()`](https://thinkdenominator.github.io/ggrank/reference/ggrank.md)
+[`ggrank()`](https://ggrank.thinkdenominator.com/reference/ggrank.md)
 calculate the ranks separately within each season.
 
 ``` r

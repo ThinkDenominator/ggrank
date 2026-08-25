@@ -3,7 +3,7 @@
 Creates a diverging bar chart answering "Who moved the most?" Positive
 values rose towards rank one; negative values fell away from rank one.
 Raw data are processed by
-[`ggrank_table()`](https://thinkdenominator.github.io/ggrank/reference/ggrank_table.md),
+[`ggrank_table()`](https://ggrank.thinkdenominator.com/reference/ggrank_table.md),
 preserving one ranking engine.
 
 ## Usage
@@ -44,7 +44,7 @@ ggrank_change(
 - data:
 
   Raw data or a rank-change table returned by
-  [`ggrank_table()`](https://thinkdenominator.github.io/ggrank/reference/ggrank_table.md).
+  [`ggrank_table()`](https://ggrank.thinkdenominator.com/reference/ggrank_table.md).
 
 - category, period:
 
@@ -76,7 +76,7 @@ ggrank_change(
 - direction, ties, check_rank:
 
   Ranking options passed to
-  [`ggrank_table()`](https://thinkdenominator.github.io/ggrank/reference/ggrank_table.md).
+  [`ggrank_table()`](https://ggrank.thinkdenominator.com/reference/ggrank_table.md).
 
 - comparison:
 

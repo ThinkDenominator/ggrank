@@ -34,7 +34,7 @@ displayed period.
 
 Users normally supply values rather than ranks. Inspect the calculation
 with
-[`ggrank_data()`](https://thinkdenominator.github.io/ggrank/reference/ggrank_data.md):
+[`ggrank_data()`](https://ggrank.thinkdenominator.com/reference/ggrank_data.md):
 
 ``` r
 
@@ -118,10 +118,10 @@ ggrank(
 ![](getting-started_files/figure-html/unnamed-chunk-4-1.png)
 
 The rank-only layout omits the value boxes. The same input works with
-[`ggrank_data()`](https://thinkdenominator.github.io/ggrank/reference/ggrank_data.md),
-[`ggrank_table()`](https://thinkdenominator.github.io/ggrank/reference/ggrank_table.md),
+[`ggrank_data()`](https://ggrank.thinkdenominator.com/reference/ggrank_data.md),
+[`ggrank_table()`](https://ggrank.thinkdenominator.com/reference/ggrank_table.md),
 and
-[`ggrank_change()`](https://thinkdenominator.github.io/ggrank/reference/ggrank_change.md).
+[`ggrank_change()`](https://ggrank.thinkdenominator.com/reference/ggrank_change.md).
 Ranks must be finite, positive whole numbers. `group` changes colours;
 it does not calculate ranks separately for each group. Separate
 institutional ranking lists should be analysed separately or represented
@@ -156,7 +156,7 @@ other ggplot2 layers can be added normally.
 
 ## Inspect the underlying comparison
 
-[`ggrank_table()`](https://thinkdenominator.github.io/ggrank/reference/ggrank_table.md)
+[`ggrank_table()`](https://ggrank.thinkdenominator.com/reference/ggrank_table.md)
 returns a readable analytical companion with one row per category and
 adjacent transition.
 

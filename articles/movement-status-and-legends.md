@@ -2,9 +2,9 @@
 
 `ggrank` has two primary visual questions:
 
-- [`ggrank()`](https://thinkdenominator.github.io/ggrank/reference/ggrank.md)
+- [`ggrank()`](https://ggrank.thinkdenominator.com/reference/ggrank.md)
   asks **How did the ranking evolve?**
-- [`ggrank_change()`](https://thinkdenominator.github.io/ggrank/reference/ggrank_change.md)
+- [`ggrank_change()`](https://ggrank.thinkdenominator.com/reference/ggrank_change.md)
   asks **Who moved the most?**
 
 Both use the same ranks. The change chart is not a second ranking
@@ -22,7 +22,7 @@ Rank 7 to rank 3 is `+4`: the category rose four positions. Rank 2 to
 rank 5 is `-3`: it fell three positions. Rank 3 to rank 3 is zero.
 Competition ties remain statistical ties; `display_position` only
 prevents tied categories from overlapping in
-[`ggrank()`](https://thinkdenominator.github.io/ggrank/reference/ggrank.md).
+[`ggrank()`](https://ggrank.thinkdenominator.com/reference/ggrank.md).
 
 ``` r
 
@@ -57,7 +57,7 @@ changes[c("category", "from", "to", "rank_from", "rank_to",
 
 ## What each status means
 
-[`ggrank_table()`](https://thinkdenominator.github.io/ggrank/reference/ggrank_table.md)
+[`ggrank_table()`](https://ggrank.thinkdenominator.com/reference/ggrank_table.md)
 preserves boundary and data-availability information:
 
 | Status | Meaning |
@@ -72,7 +72,7 @@ preserves boundary and data-availability information:
 | `missing` | A non-finite value was supplied for either side. |
 
 The
-[`ggrank_change()`](https://thinkdenominator.github.io/ggrank/reference/ggrank_change.md)
+[`ggrank_change()`](https://ggrank.thinkdenominator.com/reference/ggrank_change.md)
 colour is intentionally simpler. It uses the sign of `rank_change`: an
 entrant moving 6 to 4 is shown as a riser; an exit moving 3 to 7 is
 shown as a faller. The original `status` remains in the plot data.
@@ -203,8 +203,8 @@ To use movement rather than group colours, choose
 `colour_by = "movement"`. To hide the legend, use `show_legend = FALSE`.
 
 For a chart containing three or four periods, movement colour in
-[`ggrank()`](https://thinkdenominator.github.io/ggrank/reference/ggrank.md)
-is a summary of the net movement between the first and last displayed
+[`ggrank()`](https://ggrank.thinkdenominator.com/reference/ggrank.md) is
+a summary of the net movement between the first and last displayed
 period. A category can therefore fall and later recover while finishing
 with a stable net rank. Use `ggrank_change(comparison = "all")` when the
 individual adjacent changes are important.

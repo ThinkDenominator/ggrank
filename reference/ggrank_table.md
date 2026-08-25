@@ -1,7 +1,7 @@
 # Build a readable rank-transition table
 
 Produces the analytical companion to
-[`ggrank()`](https://thinkdenominator.github.io/ggrank/reference/ggrank.md).
+[`ggrank()`](https://ggrank.thinkdenominator.com/reference/ggrank.md).
 Each row compares a category between two adjacent selected states. A
 two-state comparison has one row per category; three or four states
 produce successive transition rows such as 1990 to 2010 and 2010 to

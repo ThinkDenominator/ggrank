@@ -134,7 +134,7 @@ ggrank(
 - base_size:
 
   Base text size passed to
-  [`theme_ggrank()`](https://thinkdenominator.github.io/ggrank/reference/theme_ggrank.md).
+  [`theme_ggrank()`](https://ggrank.thinkdenominator.com/reference/theme_ggrank.md).
 
 - title, subtitle:
 
@@ -162,7 +162,7 @@ and legend-label names must match the displayed group or movement values
 exactly. For charts with three or four periods, movement colour
 summarises the net change between the first and last displayed period;
 use
-[`ggrank_change()`](https://thinkdenominator.github.io/ggrank/reference/ggrank_change.md)
+[`ggrank_change()`](https://ggrank.thinkdenominator.com/reference/ggrank_change.md)
 to inspect each adjacent transition.
 
 ## Examples

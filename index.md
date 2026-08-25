@@ -37,18 +37,18 @@ ggrank(
 
 ## Two complementary views
 
-[`ggrank()`](https://thinkdenominator.github.io/ggrank/reference/ggrank.md)
+[`ggrank()`](https://ggrank.thinkdenominator.com/reference/ggrank.md)
 answers **How did the ranking evolve?** It shows the complete rank
 structure, values, trajectories, risers, fallers, entrants, and exits.
 The default boundary view retains categories that enter or leave the
 selected top ranks, so important transitions are not silently discarded.
 
 Use
-[`ggrank_table()`](https://thinkdenominator.github.io/ggrank/reference/ggrank_table.md)
+[`ggrank_table()`](https://ggrank.thinkdenominator.com/reference/ggrank_table.md)
 when you need the readable analytical result behind a figure—for
 example, exact before/after ranks, value changes, entrants, and exits.
 
-[`ggrank_change()`](https://thinkdenominator.github.io/ggrank/reference/ggrank_change.md)
+[`ggrank_change()`](https://ggrank.thinkdenominator.com/reference/ggrank_change.md)
 answers **Who moved the most?** It highlights the largest increases and
 decreases in rank. It accepts raw data directly:
 
@@ -63,7 +63,7 @@ categories, and selects the largest absolute changes. Use
 return ordinary ggplot objects.
 
 See the [movement, status, and legend
-guide](https://thinkdenominator.github.io/ggrank/articles/movement-status-and-legends.html)
+guide](https://ggrank.thinkdenominator.com/articles/movement-status-and-legends.html)
 for status definitions, detailed rank labels, colours, legend labels,
 and comparison selection.
 
@@ -82,7 +82,7 @@ charts, and show the rank-change table.
 
 Normally, supply one numeric value for each category and period; you do
 not need to create a rank column.
-[`ggrank()`](https://thinkdenominator.github.io/ggrank/reference/ggrank.md)
+[`ggrank()`](https://ggrank.thinkdenominator.com/reference/ggrank.md)
 ranks the exact values within each period before applying `top_n`.
 
 ``` r
@@ -156,12 +156,12 @@ For twenty rows, start with a 10–12 inch-high export; for thirty rows,
 start around 14–16 inches. The appropriate height also depends on label
 wrapping, font size, number of periods, and slide or page dimensions.
 See the [sports leaderboard
-guide](https://thinkdenominator.github.io/ggrank/articles/sports-leaderboards.html)
+guide](https://ggrank.thinkdenominator.com/articles/sports-leaderboards.html)
 for football-style and cricket-style examples.
 
 ## Exporting results
 
-[`ggrank()`](https://thinkdenominator.github.io/ggrank/reference/ggrank.md)
+[`ggrank()`](https://ggrank.thinkdenominator.com/reference/ggrank.md)
 returns an ordinary ggplot object, so use standard R tools:
 
 ``` r

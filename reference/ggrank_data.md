@@ -2,7 +2,7 @@
 
 Calculates ranks within each state before any top-N display filtering is
 applied. This helper is optional:
-[`ggrank()`](https://thinkdenominator.github.io/ggrank/reference/ggrank.md)
+[`ggrank()`](https://ggrank.thinkdenominator.com/reference/ggrank.md)
 performs the same ranking automatically. Use it when you want to
 inspect, teach, export, or reuse the calculated ranks.
 
@@ -55,7 +55,7 @@ ggrank_data(
 - periods:
 
   Optional vector selecting and ordering states. Unlike
-  [`ggrank()`](https://thinkdenominator.github.io/ggrank/reference/ggrank.md),
+  [`ggrank()`](https://ggrank.thinkdenominator.com/reference/ggrank.md),
   this preparation helper is not limited to four states.
 
 - direction:
