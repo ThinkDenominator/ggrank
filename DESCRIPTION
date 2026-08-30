@@ -2,12 +2,11 @@ Package: ggrank
 Title: Visualise Changes in Rankings with 'ggplot2'
 Version: 0.1.0
 Authors@R: c(
-    person("Rubesh", role = c("aut", "cre"),
-           email = "rubesh@thinkdenominator.com"),
+    person(given = "Rubeshkumar", family = "Polani",
+           email = "rubesh@thinkdenominator.com", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-0418-7592")),
     person("Think Denominator", role = "cph")
     )
-Author: Rubesh [aut, cre], Think Denominator [cph]
-Maintainer: Rubesh <rubesh@thinkdenominator.com>
 Description: Creates publication-ready rank transition charts showing how
     categories move between ordered states. Top-ranked categories are displayed
     together with entrants to and exits from the selected top ranks.
