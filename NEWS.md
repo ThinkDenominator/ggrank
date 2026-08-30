@@ -6,8 +6,8 @@
 * `ggrank_change()` now validates scalar `from` and `to` comparisons.
 * Plot layout arguments receive consistent validation, and GUI plot downloads
   are available only while viewing a plot.
-* Added synthetic football- and cricket-style leaderboard examples, including
-  guidance for exporting rankings containing 20 or 30 rows.
+* Added internal large-ranking examples for manually checking layouts with up
+  to 30 rows.
 
 * Initial implementation of `ggrank()`, `ggrank_table()`, and
   `theme_ggrank()`.

@@ -1,4 +1,4 @@
-url: https://ggrank.thinkdenominator.com/
+url: https://thinkdenominator.github.io/ggrank/
 
 template:
   bootstrap: 5
@@ -37,5 +37,4 @@ articles:
     navbar: ~
     contents:
       - getting-started
-      - sports-leaderboards
       - movement-status-and-legends

@@ -7,14 +7,17 @@ Authors@R: c(
            comment = c(ORCID = "0000-0002-0418-7592")),
     person("Think Denominator", role = "cph")
     )
-Description: Creates publication-ready rank transition charts showing how
-    categories move between ordered states. Top-ranked categories are displayed
-    together with entrants to and exits from the selected top ranks.
+Description: Calculates, inspects, tabulates, and visualises changes in rankings
+    across two to four ordered states. Creates 'ggplot2'-based rank-transition
+    charts that retain categories entering or leaving a selected top-rank
+    boundary. Supports ranks calculated from numeric values as well as
+    authoritative ranks supplied without values.
 License: MIT + file LICENSE
-URL: https://ggrank.thinkdenominator.com/,
+URL: https://thinkdenominator.github.io/ggrank/,
     https://github.com/ThinkDenominator/ggrank
 BugReports: https://github.com/ThinkDenominator/ggrank/issues
 Encoding: UTF-8
+Language: en-GB
 Roxygen: list(markdown = TRUE)
 Depends: R (>= 4.1.0)
 LazyData: true

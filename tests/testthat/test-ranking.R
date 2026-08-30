@@ -166,6 +166,16 @@ test_that("the packaged GUI and launcher are available", {
   expect_match(app_text, "local app session", fixed = TRUE)
 })
 
+test_that("the package citation identifies the author", {
+  package_citation <- utils::citation("ggrank")
+  expect_s3_class(package_citation, "citation")
+  citation_bibtex <- paste(utils::toBibtex(package_citation), collapse = "\n")
+  expect_match(citation_bibtex,
+               "Rubeshkumar Polani")
+  expect_match(citation_bibtex,
+               as.character(utils::packageVersion("ggrank")), fixed = TRUE)
+})
+
 test_that("the GUI runs value and rank-only workflows", {
   skip_if_not_installed("shiny")
   app_environment <- new.env(parent = globalenv())

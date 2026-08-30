@@ -1,9 +1,13 @@
+citHeader("To cite ggrank in publications, use:")
+
 bibentry(
   bibtype = "Manual",
-  title = "ggrank: Visualise Changes in Rankings with ggplot2",
-  author = person("Rubesh"),
+  title = "ggrank: Visualise Changes in Rankings with 'ggplot2'",
+  author = person(
+    given = "Rubeshkumar", family = "Polani",
+    comment = c(ORCID = "0000-0002-0418-7592")
+  ),
   year = "2026",
-  note = "R package version 0.1.0",
+  note = paste("R package version", meta$Version),
   url = "https://github.com/ThinkDenominator/ggrank"
 )
-
