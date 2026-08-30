@@ -7,20 +7,20 @@
 
 - Missing-value status matching now joins on category and period safely.
 
-- [`ggrank_change()`](https://ggrank.thinkdenominator.com/reference/ggrank_change.md)
+- [`ggrank_change()`](https://thinkdenominator.github.io/ggrank/reference/ggrank_change.md)
   now validates scalar `from` and `to` comparisons.
 
 - Plot layout arguments receive consistent validation, and GUI plot
   downloads are available only while viewing a plot.
 
-- Added synthetic football- and cricket-style leaderboard examples,
-  including guidance for exporting rankings containing 20 or 30 rows.
+- Added internal large-ranking examples for manually checking layouts
+  with up to 30 rows.
 
 - Initial implementation of
-  [`ggrank()`](https://ggrank.thinkdenominator.com/reference/ggrank.md),
-  [`ggrank_table()`](https://ggrank.thinkdenominator.com/reference/ggrank_table.md),
+  [`ggrank()`](https://thinkdenominator.github.io/ggrank/reference/ggrank.md),
+  [`ggrank_table()`](https://thinkdenominator.github.io/ggrank/reference/ggrank_table.md),
   and
-  [`theme_ggrank()`](https://ggrank.thinkdenominator.com/reference/theme_ggrank.md).
+  [`theme_ggrank()`](https://thinkdenominator.github.io/ggrank/reference/theme_ggrank.md).
 
 - Support for automatic and supplied ranks across two to four states.
 
@@ -30,7 +30,7 @@
 - Added synthetic causes and product teaching datasets.
 
 - Added
-  [`ggrank_data()`](https://ggrank.thinkdenominator.com/reference/ggrank_data.md)
+  [`ggrank_data()`](https://thinkdenominator.github.io/ggrank/reference/ggrank_data.md)
   for inspecting automatically calculated ranks.
 
 - Equal values now share competition ranks by default; tied categories
@@ -45,18 +45,18 @@
   may be valid.
 
 - Added
-  [`ggrank_change()`](https://ggrank.thinkdenominator.com/reference/ggrank_change.md)
+  [`ggrank_change()`](https://thinkdenominator.github.io/ggrank/reference/ggrank_change.md)
   to visualise the largest rises and falls from a
-  [`ggrank_table()`](https://ggrank.thinkdenominator.com/reference/ggrank_table.md)
+  [`ggrank_table()`](https://thinkdenominator.github.io/ggrank/reference/ggrank_table.md)
   result.
 
 - Added
-  [`ggrank_app()`](https://ggrank.thinkdenominator.com/reference/ggrank_app.md)
+  [`ggrank_app()`](https://thinkdenominator.github.io/ggrank/reference/ggrank_app.md)
   as an optional local Shiny interface for the existing ranking, table,
   and visualisation workflow.
 
 - Finalised
-  [`ggrank_change()`](https://ggrank.thinkdenominator.com/reference/ggrank_change.md)
+  [`ggrank_change()`](https://thinkdenominator.github.io/ggrank/reference/ggrank_change.md)
   as a latest-comparison diverging chart with raw data support, explicit
   or all-comparison selection, stable-category control, detailed rank
   labels, within-comparison ordering, and wrapped labels.
