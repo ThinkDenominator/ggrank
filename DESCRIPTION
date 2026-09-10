@@ -1,6 +1,6 @@
 Package: ggrank
 Title: Visualise Changes in Rankings with 'ggplot2'
-Version: 0.1.1
+Version: 0.1.0
 Authors@R: c(
     person(given = "Rubeshkumar", family = "Polani",
            email = "rubesh@thinkdenominator.com", role = c("aut", "cre"),

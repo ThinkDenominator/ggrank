@@ -1,10 +1,7 @@
-# ggrank 0.1.1
+# ggrank 0.1.0
 
 * Replaced the non-running `ggrank_app()` example with an explicit
   `if (interactive())` guard, as requested by CRAN.
-
-# ggrank 0.1.0
-
 * Period selections now reject duplicates and report selected periods left
   without finite ranking values using clear, user-facing errors.
 * Missing-value status matching now joins on category and period safely.
