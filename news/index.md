@@ -1,5 +1,12 @@
 # Changelog
 
+## ggrank 0.1.1
+
+- Replaced the non-running
+  [`ggrank_app()`](https://thinkdenominator.github.io/ggrank/reference/ggrank_app.md)
+  example with an explicit `if (interactive())` guard, as requested by
+  CRAN.
+
 ## ggrank 0.1.0
 
 - Period selections now reject duplicates and report selected periods

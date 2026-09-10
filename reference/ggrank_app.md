@@ -40,7 +40,7 @@ downloads reusable R code for the selected analysis.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
-ggrank_app()
-} # }
+if (interactive()) {
+  ggrank_app()
+}
 ```
