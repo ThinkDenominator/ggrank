@@ -17,8 +17,8 @@
 #' @return Invisibly returns the value from [shiny::runApp()].
 #' @export
 #' @examples
-#' \dontrun{
-#' ggrank_app()
+#' if (interactive()) {
+#'   ggrank_app()
 #' }
 ggrank_app <- function(..., launch.browser = NULL) {
   if (!requireNamespace("shiny", quietly = TRUE)) {

@@ -28,7 +28,7 @@ The app is a companion to the code-first workflow. It shows and downloads
 reusable R code for the selected analysis.
 }
 \examples{
-\dontrun{
-ggrank_app()
+if (interactive()) {
+  ggrank_app()
 }
 }

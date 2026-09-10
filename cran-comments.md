@@ -1,3 +1,11 @@
+## Resubmission
+
+This is a resubmission. In this version I have:
+
+* replaced the `\dontrun{}` wrapper in the `ggrank_app()` example with
+  `if (interactive()) { ... }`, as requested, so the example clearly identifies
+  the Shiny application as interactive while remaining visible to users.
+
 ## Initial submission
 
 This is the first CRAN submission of ggrank.
@@ -9,13 +17,15 @@ Evaluation.
 
 ## R CMD check results
 
-0 errors | 0 warnings | 1 note
+0 errors | 0 warnings | 2 notes
 
 Checked locally on:
 
 * macOS, R-devel
 
-The local NOTE is environment-specific:
+The local NOTEs are:
+
+* "New submission", which is expected because ggrank is not yet on CRAN.
 
 * HTML validation was skipped because the macOS system HTML Tidy is too old.
   The HTML manual was generated successfully. This is not a package-code or
