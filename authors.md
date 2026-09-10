@@ -13,12 +13,12 @@ Source:
 [`inst/CITATION`](https://github.com/ThinkDenominator/ggrank/blob/main/inst/CITATION)
 
 Polani R (2026). *ggrank: Visualise Changes in Rankings with 'ggplot2'*.
-R package version 0.1.1, <https://github.com/ThinkDenominator/ggrank>.
+R package version 0.1.0, <https://github.com/ThinkDenominator/ggrank>.
 
     @Manual{,
       title = {ggrank: Visualise Changes in Rankings with 'ggplot2'},
       author = {Rubeshkumar Polani},
       year = {2026},
-      note = {R package version 0.1.1},
+      note = {R package version 0.1.0},
       url = {https://github.com/ThinkDenominator/ggrank},
     }
